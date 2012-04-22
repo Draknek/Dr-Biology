@@ -10,7 +10,7 @@ package
 	public class Preloader extends Sprite
 	{
 		// Change these values
-		private static const mustClick: Boolean = true;
+		private static const mustClick: Boolean = false;
 		private static const mainClassName: String = "Main";
 		
 		private static const BG_COLOR:uint = 0x000000;
