@@ -40,7 +40,7 @@ package
 			
 			Editor.init();
 			
-			FP.world = new Level(null, 1);
+			FP.world = new Menu;
 			
 			super.init();
 			

@@ -20,6 +20,8 @@ package
 			id = _id;
 			
 			if (id) {
+				if (id > LevelData.levels.length) id = LevelData.levels.length;
+				
 				data = LevelData.levels[id - 1];
 			}
 			
@@ -49,6 +51,17 @@ package
 					
 					add(new Cell(x, y, tile - 1));
 				}
+			}
+			
+			if (id >= LevelData.levels.length) {
+				var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!", 0, 0, {size: 48, color: 0x0, align: "center"});
+			
+				title.centerOO();
+			
+				title.x = FP.width * 0.5;
+				title.y = FP.height * 0.5;
+			
+				addGraphic(title);
 			}
 		}
 		
@@ -89,6 +102,7 @@ package
 			}
 			
 			if (done) {
+				Audio.play("yay");
 				FP.alarm(60, function ():void {
 					FP.world = new Level(null, id+1);
 				});

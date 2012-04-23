@@ -118,6 +118,8 @@ package
 					
 						text.text = "" + splitsLeft;
 						text.centerOO();
+						
+						Audio.play("split");
 					}
 					
 					beingSplit = false;
