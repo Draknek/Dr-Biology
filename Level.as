@@ -54,12 +54,21 @@ package
 			}
 			
 			if (id >= LevelData.levels.length) {
-				var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!", 0, 0, {size: 48, color: 0x0, align: "center"});
+				var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!\n ", 0, 0, {size: 48, color: 0x0, align: "center"});
 			
 				title.centerOO();
 			
 				title.x = FP.width * 0.5;
-				title.y = FP.height * 0.5;
+				title.y = FP.height * 0.3;
+			
+				addGraphic(title);
+				
+				title = new Text("Made by Dr. Biology\n\nAnd Alan Hazelden\n ", 0, 0, {size: 36, color: 0x0, align: "center"});
+			
+				title.centerOO();
+			
+				title.x = FP.width * 0.5;
+				title.y = FP.height * 0.7;
 			
 				addGraphic(title);
 			}

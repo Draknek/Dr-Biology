@@ -2,6 +2,7 @@ package
 {
 	import net.flashpunk.*;
 	import net.flashpunk.debug.*;
+	import net.flashpunk.graphics.*;
 	import net.flashpunk.utils.*;
 	
 	import flash.net.*;
@@ -24,6 +25,9 @@ package
 		[Embed(source="levels.list", mimeType="application/octet-stream")]
 		public static const LEVELS:Class;
 		
+		[Embed(source = 'fonts/Maian.ttf', embedAsCFF="false", fontFamily = 'maian')]
+		public static const FONT1:Class;
+		
 		
 		public function Main () 
 		{
@@ -33,6 +37,8 @@ package
 		public override function init (): void
 		{
 			sitelock("draknek.org");
+			
+			Text.font = "maian";
 			
 			FP.screen.color = 0xFFFFFF;
 			

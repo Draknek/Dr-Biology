@@ -14,11 +14,11 @@ package
 			title.centerOO();
 			
 			title.x = FP.width * 0.5;
-			title.y = 50;
+			title.y = 100;
 			
 			addGraphic(title);
 			
-			var button:Button = new Button({text: "Play", size: 32}, function ():void {
+			var button:Button = new Button({text: "Play", size: 33}, function ():void {
 				FP.world = new Level(null, 1);
 			});
 			
