@@ -72,6 +72,27 @@ package
 			}
 			
 			super.update();
+			
+			var a:Array = [];
+			
+			getType("cell", a);
+			
+			var done:Boolean = true;
+			
+			if (a.length == 0) done = false;
+			
+			for each (var cell:Cell in a) {
+				if (cell.splitsLeft > 0) {
+					done = false;
+					break;
+				}
+			}
+			
+			if (done) {
+				FP.alarm(60, function ():void {
+					FP.world = new Level(null, id+1);
+				});
+			}
 		}
 		
 		public override function render (): void
