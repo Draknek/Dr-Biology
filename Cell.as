@@ -139,6 +139,8 @@ package
 			
 			if (beingSplit) over = true;
 			
+			if (Level(world).done) over = true;
+			
 			var c:uint = over ? 0x00FF00 : 0xFF0000;
 			Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
 			

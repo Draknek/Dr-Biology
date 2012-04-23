@@ -19,6 +19,8 @@ package
 		
 		public static var devMode:Boolean = true;
 		
+		public static var noeditor:Boolean = false;
+		
 		public static const so:SharedObject = SharedObject.getLocal("draknek/cells", "/");
 		
 		
@@ -46,24 +48,52 @@ package
 			
 			Editor.init();
 			
-			FP.world = new Menu;
-			
 			super.init();
+			
+			var startWorld:World;
+			
+			if (stage.loaderInfo.parameters) {
+				if (stage.loaderInfo.parameters.leveldata) {
+					var dataString:String = stage.loaderInfo.parameters.leveldata;
+					dataString = dataString.split(" ").join("+");
+					
+					var data:LevelData = new LevelData;
+					data.fromString(dataString);
+					
+					startWorld = new Level(data);
+					
+					noeditor = true;
+				}
+				
+				if (stage.loaderInfo.parameters.editor) {
+					startWorld = new Editor();
+				}
+				
+				if (stage.loaderInfo.parameters.noeditor) {
+					noeditor = true;
+				}
+			}
+			
+			if (! startWorld) startWorld = new Menu;
+			
+			FP.world = startWorld;
 			
 			var menu:ContextMenu = contextMenu || new ContextMenu;
 			
 			menu.hideBuiltInItems();
 			
-			menu.clipboardMenu = true;
-			menu.clipboardItems.copy = true;
-			menu.clipboardItems.paste = true;
-			menu.clipboardItems.clear = true;
+			if (! noeditor) {
+				menu.clipboardMenu = true;
+				menu.clipboardItems.copy = true;
+				menu.clipboardItems.paste = true;
+				menu.clipboardItems.clear = true;
+			
+				addEventListener(Event.COPY, copyHandler);
+				addEventListener(Event.PASTE, pasteHandler);
+				addEventListener(Event.CLEAR, clearHandler);
+			}
 			
 			contextMenu = menu;
-
-			addEventListener(Event.COPY, copyHandler);
-			addEventListener(Event.PASTE, pasteHandler);
-			addEventListener(Event.CLEAR, clearHandler);
 		}
 		
 		private function copyHandler(event:Event):void 
@@ -78,7 +108,13 @@ package
 				src = Editor.data;
 			}
 			
-			System.setClipboard(src.toString());
+			var levelcode:String = src.toString();
+			
+			if (FP.stage.loaderInfo.parameters && FP.stage.loaderInfo.parameters.editor) {
+				levelcode = "http://draknek.org/games/drbiology/?level=" + levelcode;
+			}
+			
+			System.setClipboard(levelcode);
 		}
 		
 		private function pasteHandler(event:Event):void 
@@ -87,8 +123,22 @@ package
 			var level:Level = FP.world as Level;
 			
 			if (level) {
+				var index:int = clipboard.indexOf('?');
+				
+				if (index == -1) {
+					index = 0;
+				} else {
+					var index2:int = clipboard.indexOf('=', index);
+					
+					if (index2 == -1) {
+						index += 1;
+					} else {
+						index = index2 + 1;
+					}
+				}
+				
 				var data:LevelData = new LevelData;
-				data.fromString(clipboard);
+				data.fromString(clipboard.substring(index));
 				FP.world = new Level(data);
 			}
 			

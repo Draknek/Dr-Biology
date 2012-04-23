@@ -14,6 +14,8 @@ package
 		
 		public var id:int;
 		
+		public var done:Boolean = false;
+		
 		public function Level (_data:LevelData = null, _id:int = 0)
 		{
 			data = _data;
@@ -78,7 +80,7 @@ package
 		{
 			Input.mouseCursor = "auto";
 			
-			if (Input.pressed(Key.E)) {
+			if (Input.pressed(Key.E) && ! Main.noeditor) {
 				FP.world = new Editor;
 				return;
 			}
@@ -88,7 +90,7 @@ package
 				return;
 			}
 			
-			if (Input.pressed(Key.SPACE)) {
+			if (id != 0 && Input.pressed(Key.SPACE)) {
 				FP.world = new Level(null, id+1);
 				return;
 			}
@@ -99,7 +101,7 @@ package
 			
 			getType("cell", a);
 			
-			var done:Boolean = true;
+			done = true;
 			
 			if (a.length == 0) done = false;
 			
@@ -112,9 +114,12 @@ package
 			
 			if (done) {
 				Audio.play("yay");
-				FP.alarm(60, function ():void {
-					FP.world = new Level(null, id+1);
-				});
+				
+				if (id != 0) {
+					FP.alarm(60, function ():void {
+						FP.world = new Level(null, id+1);
+					});
+				}
 			}
 		}
 		

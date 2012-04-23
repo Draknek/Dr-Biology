@@ -28,6 +28,10 @@ package
 		{
 			PERSISTENT = Main.devMode;
 			
+			if (FP.stage.loaderInfo.parameters && FP.stage.loaderInfo.parameters.editor) {
+				PERSISTENT = false;
+			}
+			
 			tiles = new Tilemap(EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
 			
 			data = new LevelData;
@@ -40,8 +44,6 @@ package
 			} else {
 				//startLevel = new DefaultRoom;
 			}
-			
-			trace(startLevel);
 			
 			data.fromString(startLevel);
 		}
