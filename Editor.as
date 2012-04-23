@@ -20,6 +20,7 @@ package
 		public static var paletteMouseover:Stamp;
 		
 		public static var tiles:Tilemap;
+		public static var data:LevelData;
 		
 		public static var PERSISTENT:Boolean = false;
 		
@@ -29,6 +30,9 @@ package
 			
 			tiles = new Tilemap(EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
 			
+			data = new LevelData;
+			data.tiles = tiles;
+			
 			var startLevel:String ='';
 			
 			if (PERSISTENT && Main.so.data.editState) {
@@ -37,7 +41,9 @@ package
 				//startLevel = new DefaultRoom;
 			}
 			
-			tiles.loadFromString(startLevel);
+			trace(startLevel);
+			
+			data.fromString(startLevel);
 		}
 		
 		public override function update (): void
@@ -49,7 +55,7 @@ package
 			}
 			
 			if (Input.pressed(Key.E)) {
-				FP.world = new Level(tiles, 0);
+				FP.world = new Level(data, 0);
 				return;
 			}
 			
@@ -227,11 +233,11 @@ package
 		
 		public function getWorldData (): *
 		{
-			return tiles.saveToString();
+			return data.toString();
 		}
 		
 		public function setWorldData (bytedata: ByteArray): void {
-			tiles.loadFromString(bytedata.toString());
+			data.fromString(bytedata.toString());
 			
 			changed();
 		}

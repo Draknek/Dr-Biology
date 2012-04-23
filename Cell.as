@@ -13,6 +13,13 @@ package
 		
 		public var text:Text;
 		
+		
+		[Embed(source="images/arrows.png")]
+		public static const ArrowsGfx: Class;
+		
+		public static var sharedArrows:Image = new Image(ArrowsGfx);
+		
+		
 		public function Cell (_x:Number, _y:Number, splitCount:int)
 		{
 			x = _x;
@@ -49,27 +56,36 @@ package
 		
 		public override function update (): void
 		{
-			if (splitsLeft && Input.mousePressed && collidePoint(x, y, world.mouseX, world.mouseY)) {
-				beingSplit = true;
+			if (splitsLeft && collidePoint(x, y, world.mouseX, world.mouseY)) {
+				if (!Input.mouseDown) Input.mouseCursor = "button";
+				
+				if (Input.mousePressed) {
+					beingSplit = true;
+				}
 			}
 			
 			if (beingSplit) {
+				Input.mouseCursor = "hand";
+				
 				var mx:Number = world.mouseX;
 				var my:Number = world.mouseY;
 				
 				var dx:int = 0;
 				var dy:int = 0;
 				
+				var dist:Number = 0.25;
+				var dist2:Number = 1 + dist;
+				
 				if (mx >= x && mx <= x + width) {
-					if (my < y - height*0.5) {
+					if (my < y - height*dist) {
 						dy = -1;
-					} else if (my > y + height*1.5) {
+					} else if (my > y + height*dist2) {
 						dy = 1;
 					}
 				} else if (my >= y && my <= y + height) {
-					if (mx < x - width*0.5) {
+					if (mx < x - width*dist) {
 						dx = -1;
-					} else if (mx > x + width*1.5) {
+					} else if (mx > x + width*dist2) {
 						dx = 1;
 					}
 				}
@@ -125,6 +141,11 @@ package
 			Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
 			
 			super.render();
+			
+			if (over) {
+				sharedArrows.alpha = 0.5;
+				//Draw.graphic(sharedArrows, x - Main.TW, y - Main.TW);
+			}
 		}
 	}
 }

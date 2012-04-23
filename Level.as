@@ -10,8 +10,21 @@ package
 		public var bg:Tilemap;
 		public var solidGrid:Grid;
 		
-		public function Level (tiles:Tilemap = null, id:int = 0)
+		public var data:LevelData;
+		
+		public var id:int;
+		
+		public function Level (_data:LevelData = null, _id:int = 0)
 		{
+			data = _data;
+			id = _id;
+			
+			if (id) {
+				data = LevelData.levels[id - 1];
+			}
+			
+			var tiles:Tilemap = data.tiles;
+			
 			bg = new Tilemap(Editor.EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
 			
 			addGraphic(bg);
@@ -41,8 +54,20 @@ package
 		
 		public override function update (): void
 		{
+			Input.mouseCursor = "auto";
+			
 			if (Input.pressed(Key.E)) {
 				FP.world = new Editor;
+				return;
+			}
+			
+			if (Input.pressed(Key.R)) {
+				FP.world = new Level(data, id);
+				return;
+			}
+			
+			if (Input.pressed(Key.SPACE)) {
+				FP.world = new Level(null, id+1);
 				return;
 			}
 			
