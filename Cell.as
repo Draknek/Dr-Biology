@@ -56,6 +56,11 @@ package
 		
 		public override function update (): void
 		{
+			if (Level(world).history.reseting) {
+				pendingSplit = false;
+				return;
+			}
+			
 			if (splitsLeft && collidePoint(x, y, world.mouseX, world.mouseY)) {
 				if (!Input.mouseDown) Input.mouseCursor = "button";
 				
@@ -91,7 +96,8 @@ package
 				}
 				
 				if (dx || dy) {
-					split(dx, dy);
+					Level(world).queueSplit(this, dx, dy);
+					pendingSplit = false;
 				}
 			}
 			
@@ -102,42 +108,54 @@ package
 		
 		public function split (dx:int, dy:int):void
 		{
-			if (canMove(dx, dy)) {
-				splitsLeft--;
-				
-				var x2:int = x + dx * Main.TW;
-				var y2:int = y + dy * Main.TW;
-			
-				var pushCell:Cell = collide("cell", x2, y2) as Cell;
-				
-				while (pushCell) {
-					x2 += dx*Main.TW;
-					y2 += dy*Main.TW;
-					FP.tween(pushCell, {x: x2, y: y2}, 20);
-					
-					pushCell = collide("cell", x2, y2) as Cell;
-				}
-			
-				x2 = x + dx * Main.TW;
-				y2 = y + dy * Main.TW;
-			
-				var newCell:Cell = new Cell(x, y, splitsLeft);
-			
-				world.add(newCell);
-				
-				FP.tween(newCell, {x: x2, y: y2}, 20);
-			
-				text.text = "" + splitsLeft;
-				text.centerOO();
-				
-				Audio.play("split");
+			if (! canMove(dx, dy)) {
+				return;
 			}
 			
-			pendingSplit = false;
+			var undoData:Object = {origCell:this, dx:dx, dy:dy, pushed:[]};
+			
+			var level:Level = world as Level;
+			
+			level.busy = true;
+			
+			splitsLeft--;
+			
+			var x2:int = x + dx * Main.TW;
+			var y2:int = y + dy * Main.TW;
+		
+			var pushCell:Cell = collide("cell", x2, y2) as Cell;
+			
+			while (pushCell) {
+				undoData.pushed.push(pushCell);
+				
+				x2 += dx*Main.TW;
+				y2 += dy*Main.TW;
+				FP.tween(pushCell, {x: x2, y: y2}, 20);
+				
+				pushCell = collide("cell", x2, y2) as Cell;
+			}
+		
+			x2 = x + dx * Main.TW;
+			y2 = y + dy * Main.TW;
+		
+			var newCell:Cell = new Cell(x, y, splitsLeft);
+		
+			world.add(newCell);
+			
+			FP.tween(newCell, {x: x2, y: y2}, 20, level.unbusy);
+			
+			undoData.newCell = newCell;
+		
+			Audio.play("split");
+			
+			level.history.moved(undoData);
 		}
 		
 		public override function render (): void
 		{
+			text.text = "" + splitsLeft;
+			text.centerOO();
+			
 			var over:Boolean = collidePoint(x, y, world.mouseX, world.mouseY);
 			
 			if (! splitsLeft) over = false;

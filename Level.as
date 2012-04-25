@@ -15,6 +15,12 @@ package
 		
 		public var nextLevel:World;
 		
+		public var actions:Array = [];
+		
+		public var busy:Boolean = false;
+		
+		public var history:History;
+		
 		public function Level (_data:LevelData = null, _id:int = 0)
 		{
 			data = _data;
@@ -64,23 +70,35 @@ package
 			
 				addGraphic(title);
 			}
+			
+			history = new History(this);
 		}
 		
 		public override function update (): void
 		{
+			var cell:Cell;
+			
 			Input.mouseCursor = "auto";
 			
 			super.update();
+			
+			history.update();
+			
+			while (actions.length && ! busy) {
+				var action:* = actions.shift();
+				
+				if (action is Function) {
+					action();
+				} else {
+					cell = action.cell;
+					cell.split(action.dx, action.dy);
+				}
+			}
 			
 			if (nextLevel) return;
 			
 			if (Input.pressed(Key.E) && ! Main.noeditor) {
 				FP.world = new Editor;
-				return;
-			}
-			
-			if (Input.pressed(Key.R)) {
-				FP.world = new Level(data, id);
 				return;
 			}
 			
@@ -97,7 +115,7 @@ package
 			
 			if (a.length == 0) done = false;
 			
-			for each (var cell:Cell in a) {
+			for each (cell in a) {
 				if (cell.splitsLeft > 0) {
 					done = false;
 					break;
@@ -119,6 +137,16 @@ package
 		public override function render (): void
 		{
 			super.render();
+		}
+		
+		public function queueSplit (cell:Cell, dx:int, dy:int):void
+		{
+			actions.push({cell:cell, dx:dx, dy:dy});
+		}
+		
+		public function unbusy ():void
+		{
+			busy = false;
 		}
 	}
 }
