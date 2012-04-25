@@ -7,7 +7,7 @@ package
 	
 	public class Cell extends Entity
 	{
-		public var beingSplit:Boolean = false;
+		public var pendingSplit:Boolean = false;
 		
 		public var splitsLeft:int;
 		
@@ -60,11 +60,11 @@ package
 				if (!Input.mouseDown) Input.mouseCursor = "button";
 				
 				if (Input.mousePressed) {
-					beingSplit = true;
+					pendingSplit = true;
 				}
 			}
 			
-			if (beingSplit) {
+			if (pendingSplit) {
 				Input.mouseCursor = "hand";
 				
 				var mx:Number = world.mouseX;
@@ -91,44 +91,49 @@ package
 				}
 				
 				if (dx || dy) {
-					if (canMove(dx, dy)) {
-						splitsLeft--;
-						
-						var x2:int = x + dx * Main.TW;
-						var y2:int = y + dy * Main.TW;
-					
-						var pushCell:Cell = collide("cell", x2, y2) as Cell;
-						
-						while (pushCell) {
-							x2 += dx*Main.TW;
-							y2 += dy*Main.TW;
-							FP.tween(pushCell, {x: x2, y: y2}, 20);
-							
-							pushCell = collide("cell", x2, y2) as Cell;
-						}
-					
-						x2 = x + dx * Main.TW;
-						y2 = y + dy * Main.TW;
-					
-						var newCell:Cell = new Cell(x, y, splitsLeft);
-					
-						world.add(newCell);
-						
-						FP.tween(newCell, {x: x2, y: y2}, 20);
-					
-						text.text = "" + splitsLeft;
-						text.centerOO();
-						
-						Audio.play("split");
-					}
-					
-					beingSplit = false;
+					split(dx, dy);
 				}
 			}
 			
 			if (Input.mouseReleased) {
-				beingSplit = false;
+				pendingSplit = false;
 			}
+		}
+		
+		public function split (dx:int, dy:int):void
+		{
+			if (canMove(dx, dy)) {
+				splitsLeft--;
+				
+				var x2:int = x + dx * Main.TW;
+				var y2:int = y + dy * Main.TW;
+			
+				var pushCell:Cell = collide("cell", x2, y2) as Cell;
+				
+				while (pushCell) {
+					x2 += dx*Main.TW;
+					y2 += dy*Main.TW;
+					FP.tween(pushCell, {x: x2, y: y2}, 20);
+					
+					pushCell = collide("cell", x2, y2) as Cell;
+				}
+			
+				x2 = x + dx * Main.TW;
+				y2 = y + dy * Main.TW;
+			
+				var newCell:Cell = new Cell(x, y, splitsLeft);
+			
+				world.add(newCell);
+				
+				FP.tween(newCell, {x: x2, y: y2}, 20);
+			
+				text.text = "" + splitsLeft;
+				text.centerOO();
+				
+				Audio.play("split");
+			}
+			
+			pendingSplit = false;
 		}
 		
 		public override function render (): void
@@ -137,7 +142,7 @@ package
 			
 			if (! splitsLeft) over = false;
 			
-			if (beingSplit) over = true;
+			if (pendingSplit) over = true;
 			
 			if (Level(world).done) over = true;
 			
@@ -145,11 +150,6 @@ package
 			Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
 			
 			super.render();
-			
-			if (over) {
-				sharedArrows.alpha = 0.5;
-				//Draw.graphic(sharedArrows, x - Main.TW, y - Main.TW);
-			}
 		}
 	}
 }
