@@ -7,14 +7,13 @@ package
 	
 	public class Level extends World
 	{
-		public var bg:Tilemap;
-		public var solidGrid:Grid;
-		
 		public var data:LevelData;
 		
 		public var id:int;
 		
 		public var done:Boolean = false;
+		
+		public var nextLevel:World;
 		
 		public function Level (_data:LevelData = null, _id:int = 0)
 		{
@@ -29,29 +28,20 @@ package
 			
 			var tiles:Tilemap = data.tiles;
 			
-			bg = new Tilemap(Editor.EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
-			
-			addGraphic(bg);
-			
-			solidGrid = new Grid(FP.width, FP.height, Main.TW, Main.TW);
-			
-			addMask(solidGrid, "solid");
-			
 			for (var i:int = 0; i < tiles.columns; i++) {
 				for (var j:int = 0; j < tiles.rows; j++) {
 					var tile:uint = tiles.getTile(i, j);
 					
 					if (tile == 0) continue;
-					if (tile == 1) {
-						bg.setTile(i, j, 1);
-						solidGrid.setTile(i, j, true);
-						continue;
-					}
 					
 					var x:int = i*Main.TW;
 					var y:int = j*Main.TW;
 					
-					add(new Cell(x, y, tile - 1));
+					if (tile == 1) {
+						add(new Wall(x, y));
+					} else {
+						add(new Cell(x, y, tile - 1));
+					}
 				}
 			}
 			
@@ -80,6 +70,10 @@ package
 		{
 			Input.mouseCursor = "auto";
 			
+			super.update();
+			
+			if (nextLevel) return;
+			
 			if (Input.pressed(Key.E) && ! Main.noeditor) {
 				FP.world = new Editor;
 				return;
@@ -94,8 +88,6 @@ package
 				FP.world = new Level(null, id+1);
 				return;
 			}
-			
-			super.update();
 			
 			var a:Array = [];
 			
@@ -116,8 +108,9 @@ package
 				Audio.play("yay");
 				
 				if (id != 0) {
+					nextLevel = new Level(null, id+1);
 					FP.alarm(60, function ():void {
-						FP.world = new Level(null, id+1);
+						FP.world = nextLevel;
 					});
 				}
 			}

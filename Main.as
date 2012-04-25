@@ -76,6 +76,8 @@ package
 			
 			if (! startWorld) startWorld = new Menu;
 			
+			startWorld = new Level(null, 1);
+			
 			FP.world = startWorld;
 			
 			var menu:ContextMenu = contextMenu || new ContextMenu;
