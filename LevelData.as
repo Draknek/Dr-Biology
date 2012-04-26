@@ -68,7 +68,7 @@ package
 		public function fromString (data:String):void
 		{
 			if (! tiles) {
-				tiles = new Tilemap(Editor.EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
+				tiles = new Tilemap(Editor.EditTilesGfx, 640, 480, 32, 32);
 			}
 			
 			md5 = MD5.hash(data);

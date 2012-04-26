@@ -23,7 +23,8 @@ package
 			
 			sprite.play("wobble");
 			
-			sprite.x = sprite.y = sprite.originX = sprite.originY = Main.TW*0.5;
+			sprite.x = sprite.y = Main.TW*0.5;
+			sprite.originX = sprite.originY = 16;
 			
 			sprite.angle = FP.rand(4) * 90;
 			
