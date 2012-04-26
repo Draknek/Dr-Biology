@@ -5,6 +5,8 @@ package
 	import net.flashpunk.masks.*;
 	import net.flashpunk.utils.*;
 	
+	import flash.geom.*;
+	
 	public class Level extends World
 	{
 		public var data:LevelData;
@@ -72,6 +74,8 @@ package
 			}
 			
 			history = new History(this);
+			
+			centerLevel();
 		}
 		
 		public override function update (): void
@@ -132,6 +136,40 @@ package
 					});
 				}
 			}
+		}
+		
+		public function centerLevel ():void
+		{
+			centerLevelMagic(data.tiles, camera, id);
+		}
+		
+		public static function centerLevelMagic (tiles:Tilemap, camera:Point, id:int):void
+		{
+			if (id == 0) return;
+			
+			var minX:int = 100;
+			var minY:int = 100;
+			var maxX:int = -100;
+			var maxY:int = -100;
+			
+			var i:int;
+			var j:int;
+			
+			for (i = 0; i < tiles.columns; i++) {
+				for (j = 0; j < tiles.rows; j++) {
+					var tile:uint = tiles.getTile(i, j);
+					
+					if (tile != 0) {
+						if (i < minX) minX = i;
+						if (j < minY) minY = j;
+						if (i > maxX) maxX = i;
+						if (j > maxY) maxY = j;
+					}
+				}
+			}
+			
+			camera.x = (minX + maxX + 1) * Main.TW * 0.5 - FP.width*0.5;
+			camera.y = (minY + maxY + 1) * Main.TW * 0.5 - FP.height*0.5;
 		}
 		
 		public override function render (): void
