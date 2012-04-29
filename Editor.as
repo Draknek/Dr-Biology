@@ -32,7 +32,7 @@ package
 				PERSISTENT = false;
 			}
 			
-			tiles = new Tilemap(EditTilesGfx, FP.width, FP.height, Main.TW, Main.TW);
+			tiles = new Tilemap(EditTilesGfx, 640/32*Main.TW, 480/32*Main.TW, Main.TW, Main.TW);
 			
 			data = new LevelData;
 			data.tiles = tiles;
