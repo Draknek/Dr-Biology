@@ -60,6 +60,8 @@ package
 			
 				title.x = FP.width * 0.5;
 				title.y = FP.height * 0.3;
+				
+				title.scrollX = title.scrollY = 0;
 			
 				addGraphic(title);
 				
@@ -69,6 +71,8 @@ package
 			
 				title.x = FP.width * 0.5;
 				title.y = FP.height * 0.7;
+				
+				title.scrollX = title.scrollY = 0;
 			
 				addGraphic(title);
 			}
