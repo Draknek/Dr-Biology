@@ -121,25 +121,26 @@ package
 		private function pasteHandler(event:Event):void 
 		{
 			var clipboard:String = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
+			
+			var index:int = clipboard.indexOf('?');
+			
+			if (index != -1) {
+				var index2:int = clipboard.indexOf('=', index);
+				
+				if (index2 == -1) {
+					index += 1;
+				} else {
+					index = index2 + 1;
+				}
+				
+				clipboard = clipboard.substring(index);
+			}
+			
 			var level:Level = FP.world as Level;
 			
 			if (level) {
-				var index:int = clipboard.indexOf('?');
-				
-				if (index == -1) {
-					index = 0;
-				} else {
-					var index2:int = clipboard.indexOf('=', index);
-					
-					if (index2 == -1) {
-						index += 1;
-					} else {
-						index = index2 + 1;
-					}
-				}
-				
 				var data:LevelData = new LevelData;
-				data.fromString(clipboard.substring(index));
+				data.fromString(clipboard);
 				FP.world = new Level(data);
 			}
 			
