@@ -32,6 +32,15 @@ package
 		public static var cell1:Cell;
 		public static var cell2:Cell;
 		
+		public static var COLORS:Array = [
+			0xFFFFFF,
+			0xFF0000,
+			0xFF00FF,
+			0x0000FF,
+			0x00FFFF,
+			0x00FF00
+		];
+		
 		public function Cell (_x:Number, _y:Number, splitCount:int)
 		{
 			x = _x;
@@ -44,7 +53,7 @@ package
 			
 			var sprite:Spritemap = new Spritemap(Gfx, 32, 32);
 			
-			sprite.add("wobble", FP.frames(0, sprite.frameCount), 0.04 + Math.random()*0.04);
+			sprite.add("wobble", FP.frames(0, sprite.frameCount-1), 0.04*(1 + Math.random()));
 			
 			sprite.play("wobble");
 			
@@ -54,13 +63,14 @@ package
 			
 			sprite = new Spritemap(Gfx, 32, 32);
 			
-			sprite.add("wobble", FP.frames(0, sprite.frameCount), 0.04 + Math.random()*0.04);
+			sprite.add("wobble", FP.frames(0, sprite.frameCount-1), 0.04*(1 + Math.random()));
 			
 			sprite.play("wobble");
 			
 			sprite.centerOO();
 			
 			image2 = sprite;
+			image2.visible = false;
 			image2.blend = "lighten";
 			
 			
@@ -155,7 +165,7 @@ package
 		
 		public function split (dx:int, dy:int):void
 		{
-			if (! canMove(dx, dy)) {
+			if (splitsLeft <= 0 || ! canMove(dx, dy)) {
 				image2.visible = false;
 				return;
 			}
@@ -214,6 +224,8 @@ package
 		
 		public override function render (): void
 		{
+			calculateColor();
+			
 			var alphaDiff:Number = textAlpha - text.alpha;
 			
 			var maxAlphaChange:Number = 1.0/10.0;
@@ -246,6 +258,12 @@ package
 			} else {
 				super.render();
 			}
+		}
+		
+		public function calculateColor ():void
+		{
+			image.color = COLORS[splitsLeft];
+			image2.color = COLORS[splitsLeft];
 		}
 		
 		public function renderSpecial ():void
