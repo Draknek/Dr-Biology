@@ -15,6 +15,8 @@ package
 		
 		public var text:Text;
 		
+		public var textAlpha:Number = 1.0;
+		
 		
 		[Embed(source="images/arrows.png")]
 		public static const ArrowsGfx: Class;
@@ -26,6 +28,9 @@ package
 		
 		public var image:Spritemap;
 		public var image2:Spritemap;
+		
+		public static var cell1:Cell;
+		public static var cell2:Cell;
 		
 		public function Cell (_x:Number, _y:Number, splitCount:int)
 		{
@@ -56,6 +61,7 @@ package
 			sprite.centerOO();
 			
 			image2 = sprite;
+			image2.blend = "lighten";
 			
 			
 			text = new Text(""+splitsLeft, 0, 0, {color: 0x000000});
@@ -87,8 +93,6 @@ package
 		
 		public override function update (): void
 		{
-			image2.visible = false;
-			
 			if (Level(world).history.reseting) {
 				pendingSplit = false;
 				return;
@@ -142,14 +146,23 @@ package
 			}
 			
 			if (Input.mouseReleased) {
-				pendingSplit = false;
+				if (pendingSplit) {
+					pendingSplit = false;
+					image2.visible = false;
+				}
 			}
 		}
 		
 		public function split (dx:int, dy:int):void
 		{
 			if (! canMove(dx, dy)) {
+				image2.visible = false;
 				return;
+			}
+			
+			if (! image2.visible) {
+				image2.visible = true;
+				image2.x = image2.y = 0;
 			}
 			
 			var undoData:Object = {origCell:this, dx:dx, dy:dy, pushed:[]};
@@ -160,40 +173,59 @@ package
 			
 			splitsLeft--;
 			
-			var x2:int = x + dx * Main.TW;
-			var y2:int = y + dy * Main.TW;
+			dx *= Main.TW;
+			dy *= Main.TW;
+			
+			var x2:int = x + dx;
+			var y2:int = y + dy;
 		
 			var pushCell:Cell = collide("cell", x2, y2) as Cell;
 			
 			while (pushCell) {
 				undoData.pushed.push(pushCell);
 				
-				x2 += dx*Main.TW;
-				y2 += dy*Main.TW;
+				x2 += dx;
+				y2 += dy;
 				FP.tween(pushCell, {x: x2, y: y2}, 20);
 				
 				pushCell = collide("cell", x2, y2) as Cell;
 			}
 		
-			x2 = x + dx * Main.TW;
-			y2 = y + dy * Main.TW;
-		
-			var newCell:Cell = new Cell(x + image2.x, y + image2.y, splitsLeft);
+			var newCell:Cell = new Cell(x + dx, y + dy, splitsLeft);
 		
 			world.add(newCell);
 			
-			FP.tween(newCell, {x: x2, y: y2}, 20, level.unbusy);
+			FP.tween(image2, {x: dx, y: dy}, 20, level.unbusy);
 			
 			undoData.newCell = newCell;
 		
 			Audio.play("split");
 			
 			level.history.moved(undoData);
+			
+			cell1 = this;
+			cell2 = newCell;
+			
+			textAlpha = 0;
+			newCell.textAlpha = 0;
+			newCell.text.alpha = 0;
+			newCell.visible = false;
 		}
 		
 		public override function render (): void
 		{
-			text.text = "" + splitsLeft;
+			var alphaDiff:Number = textAlpha - text.alpha;
+			
+			var maxAlphaChange:Number = 1.0/10.0;
+			
+			if (alphaDiff < -maxAlphaChange) {
+				text.alpha -= maxAlphaChange;
+			} else if (alphaDiff > maxAlphaChange) {
+				text.alpha += maxAlphaChange;
+			} else {
+				text.alpha = textAlpha;
+			}
+			
 			text.centerOO();
 			
 			var over:Boolean = collidePoint(x, y, world.mouseX, world.mouseY);
@@ -234,8 +266,6 @@ package
 			
 			Draw.setTarget(buffer);
 			Draw.graphic(image, Main.TW*2, Main.TW*2);
-			
-			image2.blend = "lighten";
 			
 			Draw.graphic(image2, Main.TW*2, Main.TW*2);
 			

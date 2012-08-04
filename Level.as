@@ -189,6 +189,12 @@ package
 		public function unbusy ():void
 		{
 			busy = false;
+			Cell.cell1.textAlpha = 1;
+			Cell.cell2.textAlpha = 1;
+			Cell.cell1.image2.visible = false;
+			Cell.cell2.visible = true;
+			
+			Cell.cell1.text.text = "" + Cell.cell1.splitsLeft;
 		}
 	}
 }

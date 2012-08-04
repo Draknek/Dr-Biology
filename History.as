@@ -131,6 +131,8 @@ package
 			FP.tween(cell, {x: cell.x - dx, y: cell.y - dy}, time, function ():void {
 				level.remove(undoData.newCell);
 				undoData.origCell.splitsLeft++;
+				Cell.cell1 = undoData.origCell;
+				Cell.cell2 = undoData.newCell;
 				level.unbusy();
 			});
 		}
