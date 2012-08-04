@@ -48,7 +48,7 @@ package
 					if (tile == 1) {
 						add(new Wall(x, y));
 					} else {
-						add(new Cell(x, y, tile - 1));
+						add(new Cell(x + Main.TW*0.5, y + Main.TW*0.5, tile - 1));
 					}
 				}
 			}

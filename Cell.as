@@ -5,6 +5,8 @@ package
 	import net.flashpunk.masks.*;
 	import net.flashpunk.utils.*;
 	
+	import flash.display.*;
+	
 	public class Cell extends Entity
 	{
 		public var pendingSplit:Boolean = false;
@@ -17,8 +19,13 @@ package
 		[Embed(source="images/arrows.png")]
 		public static const ArrowsGfx: Class;
 		
+		[Embed(source="images/idlegerm.png")]
+		public static const Gfx: Class;
+		
 		public static var sharedArrows:Image = new Image(ArrowsGfx);
 		
+		public var image:Spritemap;
+		public var image2:Spritemap;
 		
 		public function Cell (_x:Number, _y:Number, splitCount:int)
 		{
@@ -27,12 +34,36 @@ package
 			
 			splitsLeft = splitCount;
 			
-			setHitbox(Main.TW, Main.TW);
+			setHitbox(Main.TW, Main.TW, Main.TW*0.5, Main.TW*0.5);
 			
-			text = new Text(""+splitsLeft, Main.TW*0.5, Main.TW*0.5, {color: 0x000000});
+			
+			var sprite:Spritemap = new Spritemap(Gfx, 32, 32);
+			
+			sprite.add("wobble", FP.frames(0, sprite.frameCount), 0.04 + Math.random()*0.04);
+			
+			sprite.play("wobble");
+			
+			sprite.centerOO();
+			
+			image = sprite;
+			
+			sprite = new Spritemap(Gfx, 32, 32);
+			
+			sprite.add("wobble", FP.frames(0, sprite.frameCount), 0.04 + Math.random()*0.04);
+			
+			sprite.play("wobble");
+			
+			sprite.centerOO();
+			
+			image2 = sprite;
+			
+			
+			text = new Text(""+splitsLeft, 0, 0, {color: 0x000000});
 			text.centerOO();
 			
-			graphic = text;
+			addGraphic(image);
+			addGraphic(image2);
+			addGraphic(text);
 			
 			type = "cell";
 		}
@@ -56,6 +87,8 @@ package
 		
 		public override function update (): void
 		{
+			image2.visible = false;
+			
 			if (Level(world).history.reseting) {
 				pendingSplit = false;
 				return;
@@ -78,20 +111,27 @@ package
 				var dx:int = 0;
 				var dy:int = 0;
 				
-				var dist:Number = 0.25;
-				var dist2:Number = 1 + dist;
+				var dist:Number = 0.75;
 				
-				if (mx >= x && mx <= x + width) {
+				if (mx >= x - halfWidth && mx <= x + halfWidth) {
 					if (my < y - height*dist) {
 						dy = -1;
-					} else if (my > y + height*dist2) {
+					} else if (my > y + height*dist) {
 						dy = 1;
+					} else if (! (my >= y - halfHeight && my <= y + halfHeight)) {
+						image2.x = 0;
+						image2.y = my - y + ((my > y) ? -halfHeight : halfHeight);
+						image2.visible = true;
 					}
-				} else if (my >= y && my <= y + height) {
+				} else if (my >= y - halfHeight && my <= y + halfHeight) {
 					if (mx < x - width*dist) {
 						dx = -1;
-					} else if (mx > x + width*dist2) {
+					} else if (mx > x + width*dist) {
 						dx = 1;
+					} else {
+						image2.x = mx - x + ((mx > x) ? -halfWidth : halfWidth);
+						image2.y = 0;
+						image2.visible = true;
 					}
 				}
 				
@@ -138,7 +178,7 @@ package
 			x2 = x + dx * Main.TW;
 			y2 = y + dy * Main.TW;
 		
-			var newCell:Cell = new Cell(x, y, splitsLeft);
+			var newCell:Cell = new Cell(x + image2.x, y + image2.y, splitsLeft);
 		
 			world.add(newCell);
 			
@@ -162,13 +202,58 @@ package
 			
 			if (pendingSplit) over = true;
 			
-			if (Level(world).done) over = true;
+			//if (Level(world).done) over = true;
 			
-			var c:uint = over ? 0x00FF00 : 0xFF0000;
-			Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
+			if (over) {
+				var c:uint = 0xFF0000;
+				Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
+			}
 			
-			super.render();
+			if (image2.visible) {
+				renderSpecial();
+			} else {
+				super.render();
+			}
 		}
+		
+		public function renderSpecial ():void
+		{
+			if (! buffer) {
+				buffer = new BitmapData(Main.TW*4, Main.TW*4, true, 0x0);
+			}
+			
+			FP.point.x = x - Main.TW*2 - FP.camera.x;
+			FP.point.y = y - Main.TW*2 - FP.camera.y;
+			
+			FP.rect.x = 0;
+			FP.rect.y = 0;
+			FP.rect.width = Main.TW*4;
+			FP.rect.height = Main.TW*4;
+			
+			buffer.fillRect(FP.rect, 0x0);
+			
+			Draw.setTarget(buffer);
+			Draw.graphic(image, Main.TW*2, Main.TW*2);
+			
+			image2.blend = "lighten";
+			
+			Draw.graphic(image2, Main.TW*2, Main.TW*2);
+			
+			FP.point.x = x - Main.TW*2 - FP.camera.x;
+			FP.point.y = y - Main.TW*2 - FP.camera.y;
+			
+			FP.rect.x = 0;
+			FP.rect.y = 0;
+			FP.rect.width = Main.TW*4;
+			FP.rect.height = Main.TW*4;
+			
+			FP.buffer.copyPixels(buffer, FP.rect, FP.point, null, null, true);
+			
+			Draw.setTarget(FP.buffer, FP.camera);
+			Draw.graphic(text, x, y);
+		}
+		
+		public static var buffer:BitmapData;
 	}
 }
 
