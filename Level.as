@@ -71,12 +71,12 @@ package
 			
 				addGraphic(title);
 				
-				title = new Text("Made by Dr. Biology\n\nAnd Alan Hazelden\n ", 0, 0, {size: 36, color: 0x0, align: "center"});
+				title = new Text("Made by Dr. Biology\nand Alan Hazelden\n\nGraphics by Cap'n Lee\n ", 0, 0, {size: 36, color: 0x0, align: "center"});
 			
 				title.centerOO();
 			
 				title.x = FP.width * 0.5;
-				title.y = FP.height * 0.7;
+				title.y = FP.height * 0.75;
 				
 				title.scrollX = title.scrollY = 0;
 			
