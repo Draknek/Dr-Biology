@@ -18,6 +18,8 @@ package
 		[Embed(source="images/buttons.png")]
 		public static const ButtonsGfx: Class;
 		
+		public var undoButton:Button;
+		
 		public function History (_level:Level)
 		{
 			level = _level;
@@ -33,6 +35,8 @@ package
 				
 				level.add(button);
 			}
+			
+			undoButton = button;
 		}
 		
 		public function moved (undoData:Object):void
@@ -45,16 +49,20 @@ package
 		{
 			var delta:int = 0;
 			
-			if (Input.check(Key.CONTROL) || Input.check(Key.COMMAND)) {
-				if (Input.pressed(Key.Z)) {
-					queueUndo();
+			if (Input.pressed(Key.Z)) {
+				queueUndo();
+			}
+			
+			if (Input.pressed(Key.Y)) {
+				queueRedo();
+			}
+			
+			delta = int(Input.check(Key.Z)) - int(Input.check(Key.Y));
+			
+			if (! delta) {
+				if (undoButton == Button.lastPressed && Input.mouseDown && undoButton.over) {
+					delta = 1;
 				}
-				
-				if (Input.pressed(Key.Y)) {
-					queueRedo();
-				}
-				
-				delta = int(Input.check(Key.Z)) - int(Input.check(Key.Y));
 			}
 			
 			if (delta && delta*repeatUndo >= 0) {

@@ -18,6 +18,10 @@ package
 		public var normalColor:uint;
 		public var hoverColor:uint;
 		
+		public var over:Boolean;
+		
+		public static var lastPressed:Button;
+		
 		public function Button (_gfx:*, _callback:Function, options:Object = null)
 		{
 			if (_gfx is Image) {
@@ -54,7 +58,7 @@ package
 		{
 			if (!world || !collidable || !visible) return;
 			
-			var over:Boolean = collidePoint(x, y, Input.mouseX, Input.mouseY);
+			over = collidePoint(x, y, Input.mouseX, Input.mouseY);
 			
 			if (over) {
 				Input.mouseCursor = "button";
@@ -63,6 +67,7 @@ package
 			image.color = over ? hoverColor : normalColor;
 			
 			if (over && Input.mousePressed && callback != null) {
+				lastPressed = this;
 				callback();
 			}
 		}
