@@ -222,6 +222,8 @@ package
 			newCell.visible = false;
 		}
 		
+		private var lastFrameValue:int;
+		
 		public override function render (): void
 		{
 			calculateColor();
@@ -238,7 +240,14 @@ package
 				text.alpha = textAlpha;
 			}
 			
-			text.centerOO();
+			if (lastFrameValue != image.frame) {
+				text.size = FP.rand(4) + 15;
+				
+				lastFrameValue = image.frame;
+			}
+			
+			text.originX = text.textWidth/2;
+			text.originY = text.textHeight/2;
 			
 			var over:Boolean = collidePoint(x, y, world.mouseX, world.mouseY);
 			
@@ -297,8 +306,10 @@ package
 			
 			FP.buffer.copyPixels(buffer, FP.rect, FP.point, null, null, true);
 			
-			Draw.setTarget(FP.buffer, FP.camera);
-			Draw.graphic(text, x, y);
+			if (text.visible) {
+				Draw.setTarget(FP.buffer, FP.camera);
+				Draw.graphic(text, x, y);
+			}
 		}
 		
 		public static var buffer:BitmapData;
