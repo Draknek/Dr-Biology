@@ -119,6 +119,8 @@ package
 		
 		private function undo ():void
 		{
+			if (level.done) return;
+			
 			var undoData:Object = undoStack.pop();
 			
 			var dx:int = undoData.dx * Main.TW;
