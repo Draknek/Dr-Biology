@@ -33,12 +33,12 @@ package
 		public static var cell2:Cell;
 		
 		public static var COLORS:Array = [
-			0xFFFFFF,
-			0xFF0000,
-			0xFF00FF,
-			0x0000FF,
-			0x00FFFF,
-			0x00FF00
+			0xe6e8d1,
+			0xe6962e,
+			0xe32f55,
+			0xcb40af,
+			0x9f4fdc,
+			0x0090ff
 		];
 		
 		public function Cell (_x:Number, _y:Number, splitCount:int)
