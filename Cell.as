@@ -104,16 +104,21 @@ package
 		public override function update (): void
 		{
 			if (Level(world).history.reseting) {
+				text.color = 0x0;
 				pendingSplit = false;
 				return;
 			}
 			
 			if (splitsLeft && collidePoint(x, y, world.mouseX, world.mouseY)) {
+				text.color = 0xFFFFFF;
+				
 				if (!Input.mouseDown) Input.mouseCursor = "button";
 				
 				if (Input.mousePressed) {
 					pendingSplit = true;
 				}
+			} else {
+				text.color = 0x0;
 			}
 			
 			if (pendingSplit) {
@@ -281,11 +286,6 @@ package
 			if (pendingSplit) over = true;
 			
 			//if (Level(world).done) over = true;
-			
-			if (over) {
-				var c:uint = 0xFF0000;
-				Draw.circlePlus(centerX, centerY, Main.TW*0.5 - 3, c, 1.0, false, 2.0);
-			}
 			
 			if (image2.visible) {
 				renderSpecial();
