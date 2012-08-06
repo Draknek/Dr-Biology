@@ -16,7 +16,11 @@ package
 		
 		public function addLevel (i:int):void
 		{
-			var locked:Boolean = false;
+			var locked:Boolean = true;
+			
+			if (i == 0 || Main.so.data.completed[i]) {
+				locked = false;
+			}
 			
 			var button:Entity = new Entity;
 			

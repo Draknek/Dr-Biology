@@ -117,7 +117,7 @@ package
 			}
 			
 			if (id != 0 && Input.pressed(Key.SPACE)) {
-				FP.world = new Level(null, id+1);
+				//FP.world = new Level(null, id+1);
 				return;
 			}
 			
@@ -137,6 +137,8 @@ package
 			}
 			
 			if (done) {
+				Main.so.data.completed[id] = true;
+				
 				Audio.play("yay");
 				
 				if (id != 0) {

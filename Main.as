@@ -32,6 +32,10 @@ package
 		
 		public function Main () 
 		{
+			if (! so.data.completed) {
+				so.data.completed = [];
+			}
+			
 			super(640, 480, 60, true);
 		}
 		
