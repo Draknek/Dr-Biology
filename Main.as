@@ -18,7 +18,7 @@ package
 		
 		public static var devMode:Boolean = true;
 		
-		public static var noeditor:Boolean = false;
+		public static var noeditor:Boolean = true;
 		
 		public static const so:SharedObject = SharedObject.getLocal("draknek/cells", "/");
 		
@@ -65,6 +65,7 @@ package
 				}
 				
 				if (stage.loaderInfo.parameters.editor) {
+					noeditor = false;
 					startWorld = new Editor();
 				}
 				
