@@ -16,15 +16,29 @@ package
 		
 		public function addLevel (i:int):void
 		{
-			var button:Entity = new Entity;
+			var locked:Boolean = false;
 			
-			button.x = (i % 4) * (FP.width/4);
-			button.y = int(i / 4) * (FP.height/3);
+			var button:Entity = new Entity;
 			
 			button.width = 10*12;
 			button.height = 8*12;
 			
-			button.graphic = Image.createRect(button.width, button.height, 0xFF0000);
+			var spacingX:Number = (FP.width - button.width*4)/5;
+			var spacingY:Number = (FP.height - button.height*3)/4;
+			
+			button.x = (i % 4) * (button.width + spacingX) + spacingX;
+			button.y = int(i / 4) * (button.height + spacingY) + spacingY;
+			
+			button.visible = false;
+			button.layer = i + 1;
+			
+			if (locked) {
+				var text:Text = new Text("LOCKED", button.x + button.width*0.5, button.y + button.height*0.5, {size: 30, color: 0x0});
+				text.centerOO();
+				addGraphic(text, -20);
+			} else {
+				button.type = "levelregion";
+			}
 			
 			add(button);
 			
@@ -50,6 +64,7 @@ package
 						wall.image.scale = 1.0/3.0;
 						e = wall;
 					} else {
+						if (locked) continue;
 						var cell:Cell = new Cell(x + Main.TW*0.5, y + Main.TW*0.5, tile - 1);
 						cell.image.scale = 1.0/3.0;
 						cell.text.visible = false;
@@ -79,6 +94,16 @@ package
 		{
 			Input.mouseCursor = "auto";
 			super.update();
+			
+			var e:Entity = collidePoint("levelregion", mouseX, mouseY);
+			
+			if (e) {
+				Input.mouseCursor = "button";
+				
+				if (Input.mousePressed) {
+					FP.world = new Level(null, e.layer);
+				}
+			}
 		}
 	}
 }

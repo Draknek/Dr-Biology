@@ -10,12 +10,14 @@ package
 		[Embed(source="images/wall-complete.png")]
 		public static const Gfx: Class;
 		
+		public var image:Image;
+		
 		public function Wall (_x:Number, _y:Number)
 		{
 			x = _x;
 			y = _y;
 			
-			setHitbox(Main.TW, Main.TW);
+			setHitbox(Main.TW, Main.TW, Main.TW*0.5, Main.TW*0.5);
 			
 			var sprite:Spritemap = new Spritemap(Gfx, 32, 32);
 			
@@ -23,12 +25,13 @@ package
 			
 			sprite.play("wobble");
 			
-			sprite.x = sprite.y = Main.TW*0.5;
 			sprite.originX = sprite.originY = 16;
 			
 			sprite.angle = FP.rand(4) * 90;
 			
 			sprite.scaleX = FP.choose(1, -1);
+			
+			image = sprite;
 			
 			graphic = sprite;
 			

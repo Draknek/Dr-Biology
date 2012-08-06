@@ -23,7 +23,16 @@ package
 			});
 			
 			button.x = (FP.width - button.width)*0.5;
-			button.y = 300;
+			button.y = 280;
+			
+			add(button);
+			
+			button = new Button({text: "Level select", size: 33}, function ():void {
+				FP.world = new LevelSelect;
+			});
+			
+			button.x = (FP.width - button.width)*0.5;
+			button.y = 340;
 			
 			add(button);
 		}

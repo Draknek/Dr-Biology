@@ -52,7 +52,7 @@ package
 					var y:int = j*Main.TW;
 					
 					if (tile == 1) {
-						add(new Wall(x, y));
+						add(new Wall(x + Main.TW*0.5, y + Main.TW*0.5));
 					} else {
 						add(new Cell(x + Main.TW*0.5, y + Main.TW*0.5, tile - 1));
 					}
@@ -153,9 +153,12 @@ package
 			centerLevelMagic(data.tiles, camera, id);
 		}
 		
-		public static function centerLevelMagic (tiles:Tilemap, camera:Point, id:int):void
+		public static function centerLevelMagic (tiles:Tilemap, camera:Point, id:int, w:int = 0, h:int = 0):void
 		{
 			if (id == 0) return;
+			
+			if (!w) w = FP.width;
+			if (!h) h = FP.height;
 			
 			var minX:int = 100;
 			var minY:int = 100;
@@ -178,8 +181,8 @@ package
 				}
 			}
 			
-			camera.x = (minX + maxX + 1) * Main.TW * 0.5 - FP.width*0.5;
-			camera.y = (minY + maxY + 1) * Main.TW * 0.5 - FP.height*0.5;
+			camera.x = (minX + maxX + 1) * Main.TW * 0.5 - w*0.5;
+			camera.y = (minY + maxY + 1) * Main.TW * 0.5 - h*0.5;
 		}
 		
 		public override function render (): void
