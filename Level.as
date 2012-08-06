@@ -23,8 +23,14 @@ package
 		
 		public var history:History;
 		
+		[Embed(source="images/back.png")]
+		public static const BgGfx: Class;
+		
+		
 		public function Level (_data:LevelData = null, _id:int = 0)
 		{
+			addGraphic(new Backdrop(BgGfx), 200);
+			
 			data = _data;
 			id = _id;
 			
