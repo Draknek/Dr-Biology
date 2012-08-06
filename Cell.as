@@ -191,12 +191,17 @@ package
 		
 			var pushCell:Cell = collide("cell", x2, y2) as Cell;
 			
+			var moveTime:int = 20;
+			var delay:int = 0;
+			
 			while (pushCell) {
 				undoData.pushed.push(pushCell);
 				
 				x2 += dx;
 				y2 += dy;
-				FP.tween(pushCell, {x: x2, y: y2}, 20);
+				
+				delay += 4;
+				FP.tween(pushCell, {x: x2, y: y2}, moveTime, {delay: delay});
 				
 				pushCell = collide("cell", x2, y2) as Cell;
 			}
@@ -205,7 +210,9 @@ package
 		
 			world.add(newCell);
 			
-			FP.tween(image2, {x: dx, y: dy}, 20, level.unbusy);
+			FP.tween(image2, {x: dx, y: dy}, moveTime, endSplit);
+			
+			FP.alarm(moveTime + delay, level.unbusy);
 			
 			undoData.newCell = newCell;
 		
@@ -220,6 +227,24 @@ package
 			newCell.textAlpha = 0;
 			newCell.text.alpha = 0;
 			newCell.visible = false;
+		}
+		
+		public static function endSplit ():void
+		{
+			if (Cell.cell1.splitsLeft) {
+				Cell.cell1.textAlpha = 1;
+				Cell.cell2.textAlpha = 1;
+				Cell.cell1.text.visible = true;
+				Cell.cell2.text.visible = true;
+			} else {
+				Cell.cell1.text.visible = false;
+				Cell.cell2.text.visible = false;
+			}
+			
+			Cell.cell1.image2.visible = false;
+			Cell.cell2.visible = true;
+			
+			Cell.cell1.text.text = "" + Cell.cell1.splitsLeft;
 		}
 		
 		private var lastFrameValue:int;

@@ -195,21 +195,6 @@ package
 		public function unbusy ():void
 		{
 			busy = false;
-			
-			if (Cell.cell1.splitsLeft) {
-				Cell.cell1.textAlpha = 1;
-				Cell.cell2.textAlpha = 1;
-				Cell.cell1.text.visible = true;
-				Cell.cell2.text.visible = true;
-			} else {
-				Cell.cell1.text.visible = false;
-				Cell.cell2.text.visible = false;
-			}
-			
-			Cell.cell1.image2.visible = false;
-			Cell.cell2.visible = true;
-			
-			Cell.cell1.text.text = "" + Cell.cell1.splitsLeft;
 		}
 	}
 }

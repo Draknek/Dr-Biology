@@ -141,6 +141,7 @@ package
 				undoData.origCell.splitsLeft++;
 				Cell.cell1 = undoData.origCell;
 				Cell.cell2 = undoData.newCell;
+				Cell.endSplit();
 				level.unbusy();
 			});
 		}
