@@ -34,6 +34,8 @@ package
 			data = _data;
 			id = _id;
 			
+			FP.randomSeed = id;
+			
 			if (id) {
 				if (id > LevelData.levels.length) id = LevelData.levels.length;
 				
