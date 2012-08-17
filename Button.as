@@ -42,6 +42,8 @@ package
 				if (options.hasOwnProperty("hoverColor")) normalColor = options.hoverColor;
 			}
 			
+			image.color = normalColor;
+			
 			image.scrollX = image.scrollY = 0;
 			
 			graphic = image;
