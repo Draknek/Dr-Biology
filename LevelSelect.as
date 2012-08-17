@@ -50,7 +50,15 @@ package
 			button.graphic = image;
 			
 			if (locked) {
-				var text:Text = new Text("LOCKED", button.x, button.y, {size: 30, color: 0x0});
+				var textSize:int = 30;
+				
+				var maxSpacingX:Number = (640 - button.width*4)/5;
+				
+				if (spacingX < maxSpacingX) {
+					textSize = FP.lerp(24, 30, spacingX / maxSpacingX);
+				}
+				
+				var text:Text = new Text("LOCKED", button.x, button.y, {size: textSize, color: 0x0});
 				text.centerOO();
 				addGraphic(text, -20);
 				lockedTexts.push(text);
