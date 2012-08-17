@@ -11,6 +11,7 @@ package
 	public class LevelSelect extends World
 	{
 		public var buttons:Array = [];
+		public var lockedTexts:Array = [];
 		
 		public var nextWorld:World;
 		
@@ -23,7 +24,7 @@ package
 		
 		public function addLevel (i:int):void
 		{
-			var locked:Boolean = false;
+			var locked:Boolean = true;
 			
 			if (i == 0 || Main.so.data.completed[i]) {
 				locked = false;
@@ -52,6 +53,7 @@ package
 				var text:Text = new Text("LOCKED", button.x, button.y, {size: 30, color: 0x0});
 				text.centerOO();
 				addGraphic(text, -20);
+				lockedTexts.push(text);
 			} else {
 				button.type = "levelregion";
 			}
@@ -87,14 +89,19 @@ package
 					nextWorld = new Level(null, e.layer);
 					
 					var tweenTime:Number = 20;
+					var fadeTime:Number = 10;
 					
 					FP.tween(e.graphic, {scale: 1.0}, tweenTime);
 					FP.tween(e, {x: FP.width*0.5, y: FP.height*0.5}, tweenTime, {complete: tweenComplete});
 					
 					for each (b in buttons) {
 						if (b != e) {
-							FP.tween(b.graphic, {alpha: 0}, 10);
+							FP.tween(b.graphic, {alpha: 0}, fadeTime);
 						}	
+					}
+					
+					for each (var t:Text in lockedTexts) {
+						FP.tween(t, {alpha: 0}, fadeTime);
 					}
 					
 					return;
