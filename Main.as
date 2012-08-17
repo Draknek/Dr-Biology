@@ -29,6 +29,8 @@ package
 		[Embed(source = 'fonts/Maian.ttf', embedAsCFF="false", fontFamily = 'maian')]
 		public static const FONT1:Class;
 		
+		public static var MenuClass:Class;
+		
 		
 		public function Main () 
 		{

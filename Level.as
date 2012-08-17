@@ -107,6 +107,11 @@ package
 			
 			if (nextLevel) return;
 			
+			if (Input.pressed(Key.ESCAPE)) {
+				gotoMenu();
+				return;
+			}
+			
 			if (Input.pressed(Key.E) && ! Main.noeditor) {
 				FP.world = new Editor;
 				return;
@@ -144,6 +149,11 @@ package
 					});
 				}
 			}
+		}
+		
+		public static function gotoMenu ():void
+		{
+			FP.world = new Main.MenuClass;
 		}
 		
 		public function centerLevel ():void

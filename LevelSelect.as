@@ -10,6 +10,10 @@ package
 	
 	public class LevelSelect extends World
 	{
+		public var buttons:Array = [];
+		
+		public var nextWorld:World;
+		
 		public function LevelSelect ()
 		{
 			for (var i:int = 0; i < 12; i++) {
@@ -19,7 +23,7 @@ package
 		
 		public function addLevel (i:int):void
 		{
-			var locked:Boolean = true;
+			var locked:Boolean = false;
 			
 			if (i == 0 || Main.so.data.completed[i]) {
 				locked = false;
@@ -27,25 +31,25 @@ package
 			
 			var button:Entity = new Entity;
 			
-			button.width = 10*12;
-			button.height = 8*12;
+			button.setHitbox(10*12, 8*12, 10*6, 8*6);
 			
 			var spacingX:Number = (FP.width - button.width*4)/5;
 			var spacingY:Number = (FP.height - button.height*3)/4;
 			
-			button.x = (i % 4) * (button.width + spacingX) + spacingX;
-			button.y = int(i / 4) * (button.height + spacingY) + spacingY;
+			button.x = (i % 4) * (button.width + spacingX) + spacingX + button.width*0.5;
+			button.y = int(i / 4) * (button.height + spacingY) + spacingY + button.height*0.5;
 			
 			button.layer = i + 1;
 			
 			var image:Image = new Image(getLevelImage(i, locked));
 			
 			image.scale = 1.0/3.0;
+			image.centerOO();
 			
 			button.graphic = image;
 			
 			if (locked) {
-				var text:Text = new Text("LOCKED", button.x + button.width*0.5, button.y + button.height*0.5, {size: 30, color: 0x0});
+				var text:Text = new Text("LOCKED", button.x, button.y, {size: 30, color: 0x0});
 				text.centerOO();
 				addGraphic(text, -20);
 			} else {
@@ -54,23 +58,75 @@ package
 			
 			add(button);
 			
-			
+			buttons.push(button);
 		}
 		
 		public override function update ():void
 		{
+			Main.MenuClass = LevelSelect;
+			
 			Input.mouseCursor = "auto";
+			
 			super.update();
 			
+			if (nextWorld) return;
+			
+			if (Input.pressed(Key.ESCAPE)) {
+				FP.world = new Menu;
+				return;
+			}
+			
 			var e:Entity = collidePoint("levelregion", mouseX, mouseY);
+			
+			var b:Entity;
 			
 			if (e) {
 				Input.mouseCursor = "button";
 				
 				if (Input.mousePressed) {
-					FP.world = new Level(null, e.layer);
+					nextWorld = new Level(null, e.layer);
+					
+					var tweenTime:Number = 20;
+					
+					FP.tween(e.graphic, {scale: 1.0}, tweenTime);
+					FP.tween(e, {x: FP.width*0.5, y: FP.height*0.5}, tweenTime, {complete: tweenComplete});
+					
+					for each (b in buttons) {
+						if (b != e) {
+							FP.tween(b.graphic, {alpha: 0}, 10);
+						}	
+					}
+					
+					return;
 				}
 			}
+			
+			for each (b in buttons) {
+				if (b.type != "levelregion") continue;
+				
+				var image:Image = b.graphic as Image;
+				
+				if (! image) continue;
+				
+				var targetScale:Number = 1.0/3.0;
+				
+				if (b == e) {
+					targetScale = 0.5;
+				}
+				
+				var diff:Number = targetScale - image.scale;
+				
+				if (diff > -0.01 && diff < 0.01) {
+					image.scale = targetScale;
+				} else {
+					image.scale += (targetScale - image.scale) * 0.3;
+				}
+			}
+		}
+		
+		private function tweenComplete ():void
+		{
+			FP.world = nextWorld;
 		}
 		
 		private static var imageCache:Vector.<BitmapData> = new Vector.<BitmapData>(24, true);

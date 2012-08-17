@@ -24,7 +24,7 @@ package
 		{
 			level = _level;
 			
-			const BUTTON_CALLBACKS: Array = [function ():void {FP.world = new Menu;}, reset, queueUndo];
+			const BUTTON_CALLBACKS: Array = [Level.gotoMenu, reset, queueUndo];
 			
 			for (var i:int = 0; i < BUTTON_CALLBACKS.length; i++) {
 				var image:Spritemap = new Spritemap(ButtonsGfx, 32, 32);
