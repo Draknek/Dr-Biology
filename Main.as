@@ -183,6 +183,20 @@ package
 			super.update();
 		}
 		
+		[Embed(source="images/back.png")]
+		public static const BgGfx: Class;
+		
+		public static var bg:Entity;
+		
+		public override function preRender ():void
+		{
+			if (! bg) {
+				bg = new Entity(0, 0, new Backdrop(BgGfx));
+			}
+			
+			bg.render();
+		}
+		
 		public function sitelock (allowed:*):Boolean
 		{
 			var url:String = FP.stage.loaderInfo.url;

@@ -110,6 +110,7 @@
 			FP.screen.swap();
 			Draw.resetTarget();
 			FP.screen.refresh();
+			preRender();
 			if (FP._world.visible) FP._world.render();
 			FP.screen.redraw();
 			
@@ -120,6 +121,9 @@
 			FP.frameRate = 1000 / (_frameListSum / _frameList.length);
 			_frameLast = t;
 		}
+		
+		public function preRender ():void
+		{}
 		
 		/**
 		 * Override this; called when game gains focus.
