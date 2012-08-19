@@ -20,6 +20,13 @@ package
 			for (var i:int = 0; i < 12; i++) {
 				addLevel(i);
 			}
+			
+			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 32, 32);
+			buttonImage.frame = 0;
+			
+			var button:Button = new Button(buttonImage, gotoMenu);
+			
+			add(button);
 		}
 		
 		public function addLevel (i:int):void
@@ -79,16 +86,21 @@ package
 			
 			super.update();
 			
-			if (nextWorld) return;
-			
 			if (Input.pressed(Key.ESCAPE)) {
-				FP.world = new Menu;
+				gotoMenu();
 				return;
 			}
 			
+			if (nextWorld) return;
+			
 			var e:Entity = collidePoint("levelregion", mouseX, mouseY);
 			
-			var b:Entity;
+			var b:Entity = collidePoint("button", mouseX, mouseY);
+			
+			if (b) {
+				e = null;
+				b = null;
+			}
 			
 			if (e) {
 				Input.mouseCursor = "button";
@@ -139,8 +151,22 @@ package
 			}
 		}
 		
+		public function gotoMenu ():void
+		{
+			if (! nextWorld) {
+				FP.world = new Menu;
+				return;
+			}
+			
+			nextWorld = null;
+			
+			FP.world = new LevelSelect;
+		}
+		
 		private function tweenComplete ():void
 		{
+			if (! nextWorld) return;
+			
 			FP.world = nextWorld;
 		}
 		
