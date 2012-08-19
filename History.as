@@ -20,6 +20,8 @@ package
 		
 		public var undoButton:Button;
 		
+		public static var buttonsVisible:int = 0;
+		
 		public function History (_level:Level)
 		{
 			level = _level;
@@ -34,6 +36,11 @@ package
 				button.x = i*button.width;
 				
 				level.add(button);
+				
+				if (i >= History.buttonsVisible) {
+					image.alpha = 0;
+					FP.tween(image, {alpha: 1}, 60);
+				}
 			}
 			
 			undoButton = button;

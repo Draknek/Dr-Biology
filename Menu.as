@@ -39,6 +39,7 @@ package
 		
 		public override function update ():void
 		{
+			History.buttonsVisible = 0;
 			Main.MenuClass = Menu;
 			Input.mouseCursor = "auto";
 			super.update();

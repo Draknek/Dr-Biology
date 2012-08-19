@@ -80,6 +80,7 @@ package
 		
 		public override function update ():void
 		{
+			History.buttonsVisible = 1;
 			Main.MenuClass = LevelSelect;
 			
 			Input.mouseCursor = "auto";

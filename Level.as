@@ -86,6 +86,8 @@ package
 		
 		public override function update (): void
 		{
+			History.buttonsVisible = 3;
+			
 			var cell:Cell;
 			
 			Input.mouseCursor = "auto";
