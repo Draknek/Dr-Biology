@@ -6,9 +6,12 @@ package
 	import net.flashpunk.utils.*;
 	
 	import flash.display.*;
+	import flash.geom.*;
 	
 	public class Cell extends Entity
 	{
+		public static var clickPos:Point = new Point;
+		
 		public var pendingSplit:Boolean = false;
 		
 		public var splitsLeft:int;
@@ -110,13 +113,18 @@ package
 			}
 			
 			if (splitsLeft && collidePoint(x, y, world.mouseX, world.mouseY)) {
-				text.color = 0xFFFFFF;
-				
-				if (!Input.mouseDown) Input.mouseCursor = "button";
+				if (!Input.mouseDown) {
+					Input.mouseCursor = "button";
+					text.color = 0xFFFFFF;
+				}
 				
 				if (Input.mousePressed) {
 					pendingSplit = true;
+					clickPos.x = world.mouseX;
+					clickPos.y = world.mouseY;
 				}
+			} else if (pendingSplit) {
+				text.color = 0xFFFFFF;
 			} else {
 				text.color = 0x0;
 			}
@@ -124,31 +132,31 @@ package
 			if (pendingSplit) {
 				Input.mouseCursor = "hand";
 				
-				var mx:Number = world.mouseX;
-				var my:Number = world.mouseY;
+				var mx:Number = world.mouseX - clickPos.x;
+				var my:Number = world.mouseY - clickPos.y;
 				
 				var dx:int = 0;
 				var dy:int = 0;
 				
 				var dist:Number = 0.75;
 				
-				if (mx >= x - halfWidth && mx <= x + halfWidth) {
-					if (my < y - height*dist) {
+				if (Math.abs(my) > Math.abs(mx)) {
+					if (my < -height*dist) {
 						dy = -1;
-					} else if (my > y + height*dist) {
+					} else if (my > height*dist) {
 						dy = 1;
-					} else if (! (my >= y - halfHeight && my <= y + halfHeight)) {
+					} else {
 						image2.x = 0;
-						image2.y = my - y + ((my > y) ? -halfHeight : halfHeight);
+						image2.y = my*0.33;
 						image2.visible = true;
 					}
-				} else if (my >= y - halfHeight && my <= y + halfHeight) {
-					if (mx < x - width*dist) {
+				} else {
+					if (mx < -width*dist) {
 						dx = -1;
-					} else if (mx > x + width*dist) {
+					} else if (mx > width*dist) {
 						dx = 1;
 					} else {
-						image2.x = mx - x + ((mx > x) ? -halfWidth : halfWidth);
+						image2.x = mx*0.33;
 						image2.y = 0;
 						image2.visible = true;
 					}
