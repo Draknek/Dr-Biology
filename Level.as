@@ -86,6 +86,8 @@ package
 		
 		public override function update (): void
 		{
+			Main.so.data.currentlevel = id;
+			
 			History.buttonsVisible = 3;
 			
 			var cell:Cell;
