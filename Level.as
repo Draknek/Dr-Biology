@@ -109,12 +109,12 @@ package
 				}
 			}
 			
-			if (nextLevel) return;
-			
 			if (Input.pressed(Key.ESCAPE)) {
 				gotoMenu();
 				return;
 			}
+			
+			if (nextLevel) return;
 			
 			if (Input.pressed(Key.E) && ! Main.noeditor) {
 				FP.world = new Editor;
@@ -148,9 +148,14 @@ package
 				
 				if (id != 0) {
 					nextLevel = new Level(null, id+1);
-					FP.alarm(60, function ():void {
-						FP.world = nextLevel;
-					});
+					nextLevel.updateLists();
+					nextLevel.camera.x -= FP.width;
+					
+					var tweenTime:int = 30;
+					var tweenDelay:int = 60;
+					
+					FP.tween(nextLevel.camera, {x: nextLevel.camera.x + FP.width}, tweenTime, {delay: tweenDelay});
+					FP.tween(camera, {x: camera.x + FP.width}, tweenTime, {delay: tweenDelay, complete: onComplete});
 				}
 			}
 		}
@@ -158,6 +163,11 @@ package
 		public static function gotoMenu ():void
 		{
 			FP.world = new Main.MenuClass;
+		}
+		
+		public function onComplete ():void
+		{
+			FP.world = nextLevel;
 		}
 		
 		public function centerLevel ():void
@@ -200,6 +210,10 @@ package
 		public override function render (): void
 		{
 			super.render();
+			
+			if (nextLevel) {
+				nextLevel.render();
+			}
 		}
 		
 		public function queueSplit (cell:Cell, dx:int, dy:int):void
