@@ -9,15 +9,23 @@ package
 	{
 		public var title:Text;
 		
+		[Embed(source="images/logo.png")]
+		public static const LogoGfx: Class;
+		
 		public function Menu ()
 		{
-			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 48, color: 0x0, align: "center"});
+			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 48, color: 0x0});
 			
-			title.centerOO();
+			var logo:Image = new Image(LogoGfx);
+			logo.scale = title.height / logo.height;
 			
-			title.x = FP.width * 0.5;
-			title.y = 100;
+			logo.x = (FP.width - logo.scaledWidth - title.width) * 0.5;
+			logo.y = 50;
 			
+			title.x = logo.x + logo.scaledWidth;
+			title.y = 50;
+			
+			addGraphic(logo);
 			addGraphic(title);
 			
 			var buttons:Array = [];
@@ -81,7 +89,7 @@ package
 				itemCount += 1;
 			}
 			
-			var start:Number = title.y + title.height*0.5;
+			var start:Number = title.y + title.height;
 			
 			var padding:Number = (FP.height - start - h) / (itemCount + 4);
 			
