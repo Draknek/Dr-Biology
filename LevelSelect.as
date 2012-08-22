@@ -13,6 +13,7 @@ package
 		public var buttons:Array = [];
 		public var lockedTexts:Array = [];
 		
+		public var fromWorld:Level;
 		public var nextWorld:World;
 		
 		public function LevelSelect ()
@@ -27,6 +28,44 @@ package
 			var button:Button = new Button(buttonImage, gotoMenu);
 			
 			add(button);
+			
+			if (FP.world is Level) {
+				fromWorld = FP.world as Level;
+				
+				var id:int = fromWorld.id;
+				
+				var e:Entity = buttons[id-1];
+				
+				var image:Image = e.graphic as Image;
+				
+				image.scale = 1.0;
+				
+				var toX:Number = e.x;
+				var toY:Number = e.y;
+				
+				e.x = FP.width * 0.5;
+				e.y = FP.height * 0.5;
+				
+				var tweenTime:Number = 20;
+				var fadeTime:Number = 10;
+				
+				FP.tween(e, {x: toX, y: toY}, tweenTime, stopTweenFromLevel);
+				FP.tween(image, {scale: 1.0/3.0}, tweenTime);
+				
+				var b:Entity = e;
+				
+				for each (e in buttons) {
+					if (b != e) {
+						Image(e.graphic).alpha = 0;
+						FP.tween(e.graphic, {alpha: 1}, fadeTime, {delay: tweenTime - fadeTime});
+					}
+				}
+				
+				for each (var t:Text in lockedTexts) {
+					t.alpha = 0;
+					FP.tween(t, {alpha: 1}, fadeTime, {delay: tweenTime - fadeTime});
+				}
+			}
 		}
 		
 		public function addLevel (i:int):void
@@ -92,7 +131,7 @@ package
 				return;
 			}
 			
-			if (nextWorld) return;
+			if (nextWorld || fromWorld) return;
 			
 			var e:Entity = collidePoint("levelregion", mouseX, mouseY);
 			
@@ -118,7 +157,7 @@ package
 					for each (b in buttons) {
 						if (b != e) {
 							FP.tween(b.graphic, {alpha: 0}, fadeTime);
-						}	
+						}
 					}
 					
 					for each (var t:Text in lockedTexts) {
@@ -150,6 +189,11 @@ package
 					image.scale += (targetScale - image.scale) * 0.3;
 				}
 			}
+		}
+		
+		public function stopTweenFromLevel ():void
+		{
+			fromWorld = null;
 		}
 		
 		public function gotoMenu ():void
