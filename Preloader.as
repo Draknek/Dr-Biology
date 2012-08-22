@@ -6,15 +6,21 @@ package
 	import flash.events.*;
 	import flash.utils.getDefinitionByName;
 
-	[SWF(width = "640", height = "480")]
+	[SWF(width = "640", height = "480", backgroundColor = "#f7dfd4")]
 	public class Preloader extends Sprite
 	{
 		// Change these values
 		private static const mustClick: Boolean = false;
 		private static const mainClassName: String = "Main";
 		
-		private static const BG_COLOR:uint = 0x000000;
-		private static const FG_COLOR:uint = 0xFFFFFF;
+		private static const BG_COLOR:uint = 0xf7dfd4;
+		private static const FG_COLOR:uint = 0x0;
+		
+		[Embed(source="images/back.png")]
+		public static const BgGfx: Class;
+		
+		[Embed(source = 'fonts/7x5.ttf', embedAsCFF="false", fontFamily = '7x5')]
+		public static const FONT1:Class;
 		
 		
 		
@@ -32,9 +38,6 @@ package
 		private var sw:int;
 		private var sh:int;
 		
-		[Embed(source = 'net/flashpunk/graphics/04B_03__.TTF', fontFamily = 'default')]
-		private static const FONT:Class;
-		
 		public function Preloader ()
 		{
 			sw = stage.stageWidth;
@@ -46,7 +49,9 @@ package
 			px = (sw - w) * 0.5;
 			py = (sh - h) * 0.5;
 			
-			graphics.beginFill(BG_COLOR);
+			var bg:Bitmap = new BgGfx;
+			
+			graphics.beginBitmapFill(bg.bitmapData);
 			graphics.drawRect(0, 0, sw, sh);
 			graphics.endFill();
 			
@@ -63,7 +68,7 @@ package
 			text.textColor = FG_COLOR;
 			text.selectable = false;
 			text.mouseEnabled = false;
-			text.defaultTextFormat = new TextFormat("default", 16);
+			text.defaultTextFormat = new TextFormat("7x5", 16);
 			text.embedFonts = true;
 			text.autoSize = "left";
 			text.text = "0%";
