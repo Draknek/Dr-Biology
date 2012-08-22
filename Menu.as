@@ -35,8 +35,10 @@ package
 			button = new Button({text: playText, size: 33}, gotoLevel);
 			buttons.push(button);
 			
-			button = new Button({text: "Level select", size: 33}, gotoLevelSelect);
-			buttons.push(button);
+			if (Main.so.data.completed[1]) {
+				button = new Button({text: "Level select", size: 33}, gotoLevelSelect);
+				buttons.push(button);
+			}
 			
 			addButtons(buttons);
 		}
