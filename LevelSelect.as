@@ -21,8 +21,8 @@ package
 				addLevel(i);
 			}
 			
-			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 32, 32);
-			buttonImage.frame = 0;
+			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
+			buttonImage.frame = 1;
 			
 			var button:Button = new Button(buttonImage, gotoMenu);
 			

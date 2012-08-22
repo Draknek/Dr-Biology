@@ -12,8 +12,8 @@ package
 		public var image:Image;
 		public var callback:Function;
 		
-		public static var defaultColorNormal:uint = 0x00FF00;
-		public static var defaultColorHover:uint = 0xFF0000;
+		public static var defaultColorNormal:uint = 0x000000;
+		public static var defaultColorHover:uint = 0x6d6d6d;
 		
 		public var normalColor:uint;
 		public var hoverColor:uint;
