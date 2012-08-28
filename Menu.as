@@ -9,15 +9,19 @@ package
 	{
 		public var title:Text;
 		
-		[Embed(source="images/logo.png")]
+		[Embed(source="images/logocolour.png")]
 		public static const LogoGfx: Class;
 		
 		public function Menu ()
 		{
-			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 48, color: 0x0});
+			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 48, color: Button.defaultColorTextNormal, outlineStrength: 4.0, outlineColor: Button.defaultColorTextHover});
 			
 			var logo:Image = new Image(LogoGfx);
 			logo.scale = title.height / logo.height;
+			logo.smooth = true;
+			
+			//logo.tintMode = 1.0;
+			//logo.color = title.color;
 			
 			logo.x = (FP.width - logo.scaledWidth - title.width) * 0.5;
 			logo.y = 50;

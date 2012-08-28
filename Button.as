@@ -12,8 +12,8 @@ package
 		public var image:Image;
 		public var callback:Function;
 		
-		public static var defaultColorTextNormal:uint = 0x000000;
-		public static var defaultColorTextHover:uint = 0x6d6d6d;
+		public static var defaultColorTextNormal:uint = 0x6AAE26;
+		public static var defaultColorTextHover:uint = 0x1F922E;
 		public static var defaultColorImageNormal:uint = 0xFFFFFF;
 		public static var defaultColorImageHover:uint = 0xCCCCCC;
 		
@@ -32,6 +32,9 @@ package
 				var textOpts:Object = {};
 				textOpts.size = _gfx.size;
 				//textOpts.font = "orbitron";
+				textOpts.outlineStrength = 4.0;
+				textOpts.outlineColor = defaultColorTextHover;
+				textOpts.letterSpacing = 2.0;
 			
 				image = new Text(_gfx.text, 0, 0, textOpts);
 			}
@@ -74,6 +77,11 @@ package
 			}
 			
 			image.color = over ? hoverColor : normalColor;
+			
+			if (image is Text) {
+				Text(image).outlineColor = over ? FP.colorLerp(0x0, defaultColorTextHover, 0.8) : defaultColorTextHover;
+				Text(image).updateTextBuffer();
+			}
 			
 			if (over && Input.mousePressed && callback != null) {
 				lastPressed = this;

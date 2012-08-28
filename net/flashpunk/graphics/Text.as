@@ -1,6 +1,7 @@
 ﻿package net.flashpunk.graphics 
 {
 	import flash.display.BitmapData;
+	import flash.filters.GlowFilter;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.text.TextLineMetrics;
@@ -49,6 +50,11 @@
 		 * If the text field can automatically resize if its contents grow.
 		 */
 		public var resizable: Boolean;
+		
+		public var outlineColor:uint = 0x000000;
+		public var outlineStrength:uint = 0;
+		
+		public var letterSpacing:Number = 0;
 		
 		/**
 		 * Constructor.
@@ -101,6 +107,9 @@
 					if (options.hasOwnProperty("resizable")) resizable = options.resizable;
 					if (options.hasOwnProperty("width")) width = options.width;
 					if (options.hasOwnProperty("height")) height = options.height;
+					if (options.hasOwnProperty("outlineColor")) outlineColor = options.outlineColor;
+					if (options.hasOwnProperty("outlineStrength")) outlineStrength = options.outlineStrength;
+					if (options.hasOwnProperty("letterSpacing")) letterSpacing = options.letterSpacing;
 				}
 			}
 			
@@ -109,11 +118,13 @@
 			_form = new TextFormat(_font, _size, 0xFFFFFF);
 			_form.align = _align;
 			_form.leading = _leading;
+			_form.letterSpacing = letterSpacing;
 			_field.defaultTextFormat = _form;
 			_field.text = _text = text;
 			_width = width || _field.textWidth + 4;
 			_height = height || _field.textHeight + 4;
 			_source = new BitmapData(_width, _height, true, 0);
+			_outlineFilter = new GlowFilter(outlineColor, 1, outlineStrength, outlineStrength, outlineStrength * 4);
 			super(_source);
 			updateTextBuffer();
 			this.x = x;
@@ -129,6 +140,8 @@
 					}
 				}
 			}
+			
+			updateTextBuffer();
 		}
 		
 		public function setStyle(tagName:String, params:*):void
@@ -228,6 +241,8 @@
 		}
 		
 		override protected function updateColorTransform():void {
+			updateTextBuffer();
+			return;
 			if (_richText) {
 				if (_alpha == 1) {
 					_tint = null;
@@ -261,7 +276,8 @@
 				_form.color = _color;
 				matchStyles();
 			} else {
-				_form.color = 0xFFFFFF;
+				_form.color = _color;
+				_form.letterSpacing = letterSpacing;
 				_field.setTextFormat(_form);
 			}
 			
@@ -288,6 +304,16 @@
 			else
 			{
 				_source.fillRect(_sourceRect, 0);
+			}
+			
+			if(outlineStrength > 0)
+			{
+				_outlineFilter.color = outlineColor;
+				_outlineFilter.blurX = _outlineFilter.blurY = outlineStrength;
+				_outlineFilter.strength = outlineStrength * 4;
+				_field.filters = [_outlineFilter];
+			} else {
+				_field.filters = [];
 			}
 			
 			_field.width = _width;
@@ -484,6 +510,8 @@
 		/** @protected */ protected var _align:String;
 		/** @protected */ protected var _leading:Number;
 		/** @protected */ protected var _wordWrap:Boolean;
+		
+		private var _outlineFilter:GlowFilter;
 		
 		// Default font family.
 		// Use this option when compiling with Flex SDK 3 or lower
