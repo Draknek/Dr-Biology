@@ -9,27 +9,27 @@ package
 	{
 		public var title:Text;
 		
-		[Embed(source="images/logocolour.png")]
-		public static const LogoGfx: Class;
+		//[Embed(source="images/logo.png")]
+		//public static const LogoGfx: Class;
 		
 		public function Menu ()
 		{
-			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 48, color: Button.defaultColorTextNormal, outlineStrength: 4.0, outlineColor: Button.defaultColorTextHover});
+			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {size: 50, color: Button.defaultColorTextNormal, outlineStrength: 4.0, outlineColor: Button.defaultColorTextHover, letterSpacing: 1.5, align: "center"});
 			
-			var logo:Image = new Image(LogoGfx);
+			/*var logo:Image = new Image(LogoGfx);
 			logo.scale = title.height / logo.height;
 			logo.smooth = true;
 			
-			//logo.tintMode = 1.0;
-			//logo.color = title.color;
+			logo.tintMode = 1.0;
+			logo.color = title.color;
 			
 			logo.x = (FP.width - logo.scaledWidth - title.width) * 0.5;
-			logo.y = 50;
+			logo.y = 50;*/
 			
-			title.x = logo.x + logo.scaledWidth;
+			title.x = (FP.width - title.width) * 0.5;//logo.x + logo.scaledWidth;
 			title.y = 50;
 			
-			addGraphic(logo);
+			//addGraphic(logo);
 			addGraphic(title);
 			
 			var buttons:Array = [];
@@ -44,11 +44,11 @@ package
 				playText = "Continue";
 			}
 			
-			button = new Button({text: playText, size: 33}, gotoLevel);
+			button = new Button({text: playText, size: 40}, gotoLevel);
 			buttons.push(button);
 			
 			if (Main.so.data.completed[1]) {
-				button = new Button({text: "Level select", size: 33}, gotoLevelSelect);
+				button = new Button({text: "Level select", size: 40}, gotoLevelSelect);
 				buttons.push(button);
 			}
 			
