@@ -12,8 +12,10 @@ package
 		public var image:Image;
 		public var callback:Function;
 		
-		public static var defaultColorNormal:uint = 0x000000;
-		public static var defaultColorHover:uint = 0x6d6d6d;
+		public static var defaultColorTextNormal:uint = 0x000000;
+		public static var defaultColorTextHover:uint = 0x6d6d6d;
+		public static var defaultColorImageNormal:uint = 0xFFFFFF;
+		public static var defaultColorImageHover:uint = 0xCCCCCC;
 		
 		public var normalColor:uint;
 		public var hoverColor:uint;
@@ -34,12 +36,17 @@ package
 				image = new Text(_gfx.text, 0, 0, textOpts);
 			}
 			
-			normalColor = defaultColorNormal;
-			hoverColor = defaultColorHover;
+			if (image is Text) {
+				normalColor = defaultColorTextNormal;
+				hoverColor = defaultColorTextHover;
+			} else {
+				normalColor = defaultColorImageNormal;
+				hoverColor = defaultColorImageHover;
+			}
 			
 			if (options) {
 				if (options.hasOwnProperty("normalColor")) normalColor = options.normalColor;
-				if (options.hasOwnProperty("hoverColor")) normalColor = options.hoverColor;
+				if (options.hasOwnProperty("hoverColor")) hoverColor = options.hoverColor;
 			}
 			
 			image.color = normalColor;

@@ -22,6 +22,8 @@ package
 		[Embed(source = 'fonts/7x5.ttf', embedAsCFF="false", fontFamily = '7x5')]
 		public static const FONT1:Class;
 		
+		public static var stage:Stage;
+		
 		
 		
 		// Ignore everything else
@@ -40,6 +42,8 @@ package
 		
 		public function Preloader ()
 		{
+			Preloader.stage = this.stage;
+			
 			sw = stage.stageWidth;
 			sh = stage.stageHeight;
 			

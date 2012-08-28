@@ -38,7 +38,10 @@ package
 				so.data.completed = [];
 			}
 			
-			super(640, 480, 60, true);
+			var w:int = Preloader.stage.stageWidth;
+			var h:int = Preloader.stage.stageHeight;
+			
+			super(w, h, 60, true);
 		}
 		
 		public override function init (): void

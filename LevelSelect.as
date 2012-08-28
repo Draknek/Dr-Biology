@@ -23,7 +23,7 @@ package
 			}
 			
 			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
-			buttonImage.frame = 1;
+			buttonImage.frame = 2;
 			
 			var button:Button = new Button(buttonImage, gotoMenu);
 			

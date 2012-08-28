@@ -27,7 +27,7 @@ package
 			level = _level;
 			
 			const BUTTON_CALLBACKS: Array = [Level.gotoMenu, reset, queueUndo];
-			const BUTTON_FRAMES: Array = [1, 3, 0];
+			const BUTTON_FRAMES: Array = [2, 1, 0];
 			
 			for (var i:int = 0; i < BUTTON_CALLBACKS.length; i++) {
 				var image:Spritemap = new Spritemap(ButtonsGfx, 48, 48);
