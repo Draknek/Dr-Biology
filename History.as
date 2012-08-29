@@ -34,7 +34,14 @@ package
 				image.frame = BUTTON_FRAMES[i];
 				
 				var button:Button = new Button(image, BUTTON_CALLBACKS[i]);
-				button.x = i*button.width;
+				
+				if (Main.touchscreen && FP.height < 36*8+48*2) {
+					button.y = i*button.height*2;
+				} else if (Main.touchscreen) {
+					button.x = i*button.width*2;
+				} else {
+					button.x = i*button.width;
+				}
 				
 				level.add(button);
 				
