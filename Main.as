@@ -10,6 +10,7 @@ package
 	import flash.utils.*;
 	import flash.system.*;
 	import flash.desktop.*;
+	import flash.display.*;
 	import flash.ui.*;
 	
 	public class Main extends Engine
@@ -19,6 +20,11 @@ package
 		public static var devMode:Boolean = true;
 		
 		public static var noeditor:Boolean = true;
+		
+		public static var touchscreen:Boolean = false;
+		public static var isAndroid:Boolean = false;
+		public static var isIOS:Boolean = false;
+		public static var isPlaybook:Boolean = false;
 		
 		public static const so:SharedObject = SharedObject.getLocal("draknek/cells", "/");
 		
@@ -34,14 +40,61 @@ package
 		
 		public function Main () 
 		{
+			if (Capabilities.manufacturer.toLowerCase().indexOf("ios") != -1) {
+				isIOS = true;
+				touchscreen = true;
+			}
+			else if (Capabilities.manufacturer.toLowerCase().indexOf("android") >= 0) {
+				isAndroid = true;
+				touchscreen = true;
+			} else if (Capabilities.os.indexOf("QNX") >= 0) {
+				isPlaybook = true;
+				touchscreen = true;
+			}
+			
 			if (! so.data.completed) {
 				so.data.completed = [];
 			}
 			
-			var w:int = Preloader.stage.stageWidth;
-			var h:int = Preloader.stage.stageHeight;
+			var w:int = 640;
+			var h:int = 480;
+			
+			if (touchscreen) {
+				try {
+					Preloader.stage.displayState = StageDisplayState.FULL_SCREEN;
+				} catch (e:Error) {}
+				
+				w = Preloader.stage.fullScreenWidth;
+				h = Preloader.stage.fullScreenHeight;
+				
+				if (isAndroid && w < h) {
+					var tmp:int = w;
+					w = h;
+					h = tmp;
+				}
+			} else {
+				w = Preloader.stage.stageWidth;
+				h = Preloader.stage.stageHeight;
+			}
 			
 			super(w, h, 60, true);
+		}
+		
+		public override function setStageProperties():void
+		{
+			super.setStageProperties();
+			
+			if (touchscreen) {
+				try {
+					stage.displayState = StageDisplayState.FULL_SCREEN;
+				} catch (e:Error) {
+					//stage.align = StageAlign.TOP;
+					//stage.scaleMode = StageScaleMode.SHOW_ALL;
+				}
+			} else {
+				stage.align = StageAlign.TOP;
+				stage.scaleMode = StageScaleMode.SHOW_ALL;
+			}
 		}
 		
 		public override function init (): void
