@@ -244,15 +244,21 @@ package
 		[Embed(source="images/back.png")]
 		public static const BgGfx: Class;
 		
+		[Embed(source="images/vignette.png")]
+		public static const VignetteGfx: Class;
+		
 		public static var bg:Entity;
+		public static var vignette:Bitmap;
 		
 		public override function preRender ():void
 		{
 			if (! bg) {
 				bg = new Entity(0, 0, new Backdrop(BgGfx));
+				vignette = new VignetteGfx;
 			}
 			
 			bg.render();
+			FP.buffer.draw(vignette, null, null, "overlay");
 		}
 		
 		public function sitelock (allowed:*):Boolean
