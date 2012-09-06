@@ -241,8 +241,10 @@
 		}
 		
 		override protected function updateColorTransform():void {
-			updateTextBuffer();
-			return;
+			if (outlineStrength) {
+				updateTextBuffer();
+				return;
+			}
 			if (_richText) {
 				if (_alpha == 1) {
 					_tint = null;
