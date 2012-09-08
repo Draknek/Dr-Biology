@@ -56,8 +56,8 @@ package
 				buttons.push(button);
 			}
 			
-			button = new Button({text: "About", size: 40}, null);
-			buttons.push(button);
+			//button = new Button({text: "About", size: 40}, null);
+			//buttons.push(button);
 			
 			addButtons(buttons);
 		}
