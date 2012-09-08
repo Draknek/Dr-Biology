@@ -278,7 +278,11 @@
 				_form.color = _color;
 				matchStyles();
 			} else {
-				_form.color = _color;
+				if(outlineStrength) {
+					_form.color = _color;
+				} else {
+					_form.color = 0xFFFFFF;
+				}
 				_form.letterSpacing = letterSpacing;
 				_field.setTextFormat(_form);
 			}
