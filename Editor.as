@@ -53,6 +53,7 @@ package
 			Input.mouseCursor = "auto";
 			
 			Main.MenuClass = Editor;
+			History.buttonsVisible = 0;
 			
 			if (Input.pressed(Key.SPACE)) {
 				togglePalette();
@@ -117,7 +118,7 @@ package
 				}
 			}
 			
-			if (Input.mouseDown) {
+			if (Input.mouseDown || Input.mousePressed) {
 				if (overPalette && Input.mousePressed) {
 					editTile.frame = mx + (palette.width / editTile.width) * my;
 					
