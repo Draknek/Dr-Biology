@@ -52,6 +52,8 @@ package
 		{
 			Input.mouseCursor = "auto";
 			
+			Main.MenuClass = Editor;
+			
 			if (Input.pressed(Key.SPACE)) {
 				togglePalette();
 			}
