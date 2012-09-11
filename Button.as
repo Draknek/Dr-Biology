@@ -72,6 +72,8 @@ package
 			
 			over = collidePoint(x, y, Input.mouseX, Input.mouseY);
 			
+			if (Main.touchscreen && ! Input.mouseDown) over = false;
+			
 			if (over) {
 				Input.mouseCursor = "button";
 			}

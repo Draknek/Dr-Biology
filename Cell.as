@@ -113,7 +113,7 @@ package
 			}
 			
 			if (splitsLeft && collidePoint(x, y, world.mouseX, world.mouseY)) {
-				if (!Input.mouseDown) {
+				if (! Input.mouseDown && ! Main.touchscreen) {
 					Input.mouseCursor = "button";
 					text.color = 0xFFFFFF;
 				}
@@ -122,6 +122,7 @@ package
 					pendingSplit = true;
 					clickPos.x = world.mouseX;
 					clickPos.y = world.mouseY;
+					text.color = 0xFFFFFF;
 				}
 			} else if (pendingSplit) {
 				text.color = 0xFFFFFF;
