@@ -258,6 +258,9 @@ package
 			}
 			
 			bg.render();
+			
+			if (touchscreen) return;
+			
 			FP.buffer.draw(vignette, null, null, "overlay");
 		}
 		
