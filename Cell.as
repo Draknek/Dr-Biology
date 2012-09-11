@@ -13,6 +13,7 @@ package
 		public static var clickPos:Point = new Point;
 		
 		public var pendingSplit:Boolean = false;
+		public var doingSplit:Boolean = false;
 		
 		public var splitsLeft:int;
 		
@@ -85,6 +86,8 @@ package
 			addGraphic(text);
 			
 			type = "cell";
+			
+			layer = -1;
 		}
 		
 		public function canMove (dx:int, dy:int):Boolean {
@@ -109,6 +112,8 @@ package
 			if (Level(world).history.reseting) {
 				text.color = 0x0;
 				pendingSplit = false;
+				doingSplit = false;
+				image2.visible = false;
 				return;
 			}
 			
@@ -141,37 +146,49 @@ package
 				
 				var dist:Number = 0.75;
 				
+				if (! image2.visible) {
+					image2.visible = true;
+					image2.x = image2.y = 0;
+				}
+				
 				if (Math.abs(my) > Math.abs(mx)) {
 					if (my < -height*dist) {
 						dy = -1;
 					} else if (my > height*dist) {
 						dy = 1;
-					} else {
-						image2.x = 0;
-						image2.y = my*0.33;
-						image2.visible = true;
 					}
+					
+					image2.x = 0;
+					if (! dy) image2.y = my*0.33;
 				} else {
 					if (mx < -width*dist) {
 						dx = -1;
 					} else if (mx > width*dist) {
 						dx = 1;
-					} else {
-						image2.x = mx*0.33;
-						image2.y = 0;
-						image2.visible = true;
 					}
+					
+					if (! dx) image2.x = mx*0.33;
+					image2.y = 0;
 				}
 				
 				if (dx || dy) {
 					Level(world).queueSplit(this, dx, dy);
 					pendingSplit = false;
+					doingSplit = true;
 				}
 			}
 			
 			if (Input.mouseReleased) {
 				if (pendingSplit) {
 					pendingSplit = false;
+				}
+			}
+			
+			if (! pendingSplit && ! doingSplit && image2.visible) {
+				image2.x = FP.approach(image2.x, 0, 0.25);
+				image2.y = FP.approach(image2.y, 0, 0.25);
+				
+				if (! image2.x && ! image2.y) {
 					image2.visible = false;
 				}
 			}
@@ -180,7 +197,11 @@ package
 		public function split (dx:int, dy:int):void
 		{
 			if (splitsLeft <= 0 || ! canMove(dx, dy)) {
-				image2.visible = false;
+				doingSplit = false;
+				image2.visible = true;
+				var dist:Number = 0.75;
+				image2.x = width*dist*dx*0.33;
+				image2.y = height*dist*dy*0.33;
 				return;
 			}
 			
@@ -259,6 +280,9 @@ package
 			Cell.cell2.visible = true;
 			
 			Cell.cell1.text.text = "" + Cell.cell1.splitsLeft;
+			
+			Cell.cell1.doingSplit = false;
+			Cell.cell2.doingSplit = false;
 		}
 		
 		private var lastFrameValue:int;
