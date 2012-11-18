@@ -6,6 +6,7 @@ package
 	import net.flashpunk.utils.*;
 	
 	import flash.net.*;
+	import flash.geom.*;
 	import flash.events.*;
 	import flash.utils.*;
 	import flash.system.*;
@@ -244,9 +245,6 @@ package
 		[Embed(source="images/back.png")]
 		public static const BgGfx: Class;
 		
-		[Embed(source="images/vignette.png")]
-		public static const VignetteGfx: Class;
-		
 		public static var bg:Entity;
 		public static var vignette:Bitmap;
 		
@@ -254,12 +252,18 @@ package
 		{
 			if (! bg) {
 				bg = new Entity(0, 0, new Backdrop(BgGfx));
-				vignette = new VignetteGfx;
+				var vBmp:BitmapData = new BitmapData(FP.width, FP.height, true, 0x0);
+				var m:Matrix = new Matrix;
+				m.createGradientBox(FP.width, FP.height, 0, 0, 0);
+				FP.sprite.graphics.clear();
+				FP.sprite.graphics.beginGradientFill("radial", [0x0, 0x0], [0.0,1.0], [0,255], m);
+				FP.sprite.graphics.drawRect(0, 0, FP.width, FP.height);
+				FP.sprite.graphics.endFill();
+				vBmp.draw(FP.sprite);
+				vignette = new Bitmap(vBmp);
 			}
 			
 			bg.render();
-			
-			if (touchscreen) return;
 			
 			FP.buffer.draw(vignette, null, null, "overlay");
 		}
