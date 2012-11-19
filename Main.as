@@ -79,6 +79,8 @@ package
 			}
 			
 			super(w, h, 60, true);
+			
+			//FP.console.enable();
 		}
 		
 		public override function setStageProperties():void
@@ -245,27 +247,28 @@ package
 		[Embed(source="images/back.png")]
 		public static const BgGfx: Class;
 		
-		public static var bg:Entity;
-		public static var vignette:Bitmap;
+		public static var bg:BitmapData;
 		
 		public override function preRender ():void
 		{
 			if (! bg) {
-				bg = new Entity(0, 0, new Backdrop(BgGfx));
-				var vBmp:BitmapData = new BitmapData(FP.width, FP.height, true, 0x0);
+				bg = new BitmapData(FP.width, FP.height, true, 0x0);
+				
+				var e:Entity = new Entity(0, 0, new Backdrop(BgGfx));
+				e.renderTarget = bg;
+				e.render();
+				
 				var m:Matrix = new Matrix;
 				m.createGradientBox(FP.width, FP.height, 0, 0, 0);
 				FP.sprite.graphics.clear();
 				FP.sprite.graphics.beginGradientFill("radial", [0x0, 0x0], [0.0,1.0], [0,255], m);
 				FP.sprite.graphics.drawRect(0, 0, FP.width, FP.height);
 				FP.sprite.graphics.endFill();
-				vBmp.draw(FP.sprite);
-				vignette = new Bitmap(vBmp);
+				
+				bg.draw(FP.sprite, null, null, "overlay");
 			}
 			
-			bg.render();
-			
-			FP.buffer.draw(vignette, null, null, "overlay");
+			FP.buffer.copyPixels(bg, bg.rect, FP.zero);
 		}
 		
 		public function sitelock (allowed:*):Boolean
