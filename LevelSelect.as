@@ -11,6 +11,8 @@ package
 	public class LevelSelect extends World
 	{
 		public var buttons:Array = [];
+		public var imagesSmall:Array = [];
+		public var imagesLarge:Array = [];
 		public var lockedTexts:Array = [];
 		
 		public var fromWorld:Level;
@@ -35,6 +37,8 @@ package
 				var id:int = fromWorld.id;
 				
 				var e:Entity = buttons[id-1];
+				
+				e.graphic = imagesLarge[e.layer];
 				
 				var image:Image = e.graphic as Image;
 				
@@ -88,12 +92,16 @@ package
 			
 			button.layer = i + 1;
 			
-			var image:Image = new Image(getLevelImage(i, locked));
+			var imageLarge:Image = new Image(getLevelImage(i, locked));
+			imageLarge.scale = 1/3;
+			imageLarge.centerOO();
+			imagesLarge[button.layer] = imageLarge;
 			
-			image.scale = 1.0/3.0;
-			image.centerOO();
+			var imageSmall:Image = new Image(getLevelImageSmall(i, locked));
+			imageSmall.centerOO();
+			imagesSmall[button.layer] = imageSmall;
 			
-			button.graphic = image;
+			button.graphic = imageSmall;
 			
 			if (locked) {
 				var textSize:int = 30;
@@ -151,6 +159,8 @@ package
 					var tweenTime:Number = 20;
 					var fadeTime:Number = 10;
 					
+					e.graphic = imagesLarge[e.layer];
+					
 					FP.tween(e.graphic, {scale: 1.0}, tweenTime);
 					FP.tween(e, {x: FP.width*0.5, y: FP.height*0.5}, tweenTime, {complete: tweenComplete});
 					
@@ -168,23 +178,29 @@ package
 				}
 			}
 			
+			if (Main.touchscreen) return;
+			
 			for each (b in buttons) {
 				if (b.type != "levelregion") continue;
 				
-				var image:Image = b.graphic as Image;
-				
-				if (! image) continue;
+				var image:Image = imagesLarge[b.layer];
 				
 				var targetScale:Number = 1.0/3.0;
 				
 				if (b == e) {
 					targetScale = 0.5;
+					b.graphic = image;
 				}
+				
+				if (b.graphic != image) continue;
 				
 				var diff:Number = targetScale - image.scale;
 				
 				if (diff > -0.01 && diff < 0.01) {
 					image.scale = targetScale;
+					if (b != e) {
+						b.graphic = imagesSmall[b.layer];
+					}
 				} else {
 					image.scale += (targetScale - image.scale) * 0.3;
 				}
@@ -194,6 +210,10 @@ package
 		public function stopTweenFromLevel ():void
 		{
 			fromWorld = null;
+			
+			for each (var e:Entity in buttons) {
+				e.graphic = imagesSmall[e.layer];
+			}
 		}
 		
 		public function gotoMenu ():void
@@ -216,6 +236,38 @@ package
 		}
 		
 		private static var imageCache:Vector.<BitmapData> = new Vector.<BitmapData>(24, true);
+		
+		private static var imageCacheSmall:Vector.<BitmapData> = new Vector.<BitmapData>(24, true);
+		
+		private static function getLevelImageSmall (i:int, locked:Boolean):BitmapData
+		{
+			var lookup:int = i;
+			
+			if (locked) {
+				lookup += 12;
+			}
+			
+			if (imageCacheSmall[lookup]) {
+				return imageCacheSmall[lookup];
+			}
+			
+			var large:BitmapData = getLevelImage(i, locked);
+			
+			var w:int = large.width/3;
+			var h:int = large.height/3;
+			
+			var small:BitmapData = new BitmapData(w, h, true, 0x0);
+			
+			var image:Image = new Image(large);
+			image.scale = 1/3;
+			
+			Draw.setTarget(small);
+			Draw.graphic(image);
+			
+			imageCacheSmall[lookup] = small;
+			
+			return small;
+		}
 		
 		private static function getLevelImage (i:int, locked:Boolean):BitmapData
 		{
