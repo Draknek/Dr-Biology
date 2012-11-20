@@ -13,7 +13,6 @@ package
 		public var buttons:Array = [];
 		public var imagesSmall:Array = [];
 		public var imagesLarge:Array = [];
-		public var lockedTexts:Array = [];
 		
 		public var fromWorld:Level;
 		public var nextWorld:World;
@@ -64,11 +63,6 @@ package
 						FP.tween(e.graphic, {alpha: 1}, fadeTime, {delay: tweenTime - fadeTime});
 					}
 				}
-				
-				for each (var t:Text in lockedTexts) {
-					t.alpha = 0;
-					FP.tween(t, {alpha: 1}, fadeTime, {delay: tweenTime - fadeTime});
-				}
 			}
 		}
 		
@@ -103,20 +97,7 @@ package
 			
 			button.graphic = imageSmall;
 			
-			if (locked) {
-				var textSize:int = 30;
-				
-				var maxSpacingX:Number = (640 - button.width*4)/5;
-				
-				if (spacingX < maxSpacingX) {
-					textSize = FP.lerp(24, 30, spacingX / maxSpacingX);
-				}
-				
-				var text:Text = new Text("LOCKED", button.x, button.y, {size: textSize, color: 0x0});
-				text.centerOO();
-				addGraphic(text, -20);
-				lockedTexts.push(text);
-			} else {
+			if (! locked) {
 				button.type = "levelregion";
 			}
 			
@@ -168,10 +149,6 @@ package
 						if (b != e) {
 							FP.tween(b.graphic, {alpha: 0}, fadeTime);
 						}
-					}
-					
-					for each (var t:Text in lockedTexts) {
-						FP.tween(t, {alpha: 0}, fadeTime);
 					}
 					
 					return;
@@ -239,6 +216,8 @@ package
 		
 		private static var imageCacheSmall:Vector.<BitmapData> = new Vector.<BitmapData>(24, true);
 		
+		private static var textCache:Text;
+		
 		private static function getLevelImageSmall (i:int, locked:Boolean):BitmapData
 		{
 			var lookup:int = i;
@@ -258,11 +237,29 @@ package
 			
 			var small:BitmapData = new BitmapData(w, h, true, 0x0);
 			
+			if (locked && ! textCache) {
+				var textSize:int = 30;
+				
+				var spacingX:Number = (FP.width - w*4)/5;
+				var spacingY:Number = (FP.height - h*3)/4;
+				
+				var maxSpacingX:Number = (640 - w*4)/5;
+				
+				if (spacingX < maxSpacingX) {
+					textSize = FP.lerp(24, 30, spacingX / maxSpacingX);
+				}
+				
+				textCache = new Text("LOCKED", w*0.5, h*0.5, {size: textSize, color: 0x0});
+				textCache.centerOO();
+			
+			}
+			
 			var image:Image = new Image(large);
 			image.scale = 1/3;
 			
 			Draw.setTarget(small);
 			Draw.graphic(image);
+			if (locked) Draw.graphic(textCache);
 			
 			imageCacheSmall[lookup] = small;
 			
