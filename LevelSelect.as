@@ -17,8 +17,12 @@ package
 		public var fromWorld:Level;
 		public var nextWorld:World;
 		
+		public static var thumbnailScale:Number;
+		
 		public function LevelSelect ()
 		{
+			thumbnailScale = 1.0/3.0;
+			
 			for (var i:int = 0; i < 12; i++) {
 				addLevel(i);
 			}
@@ -53,7 +57,7 @@ package
 				var fadeTime:Number = 10;
 				
 				FP.tween(e, {x: toX, y: toY}, tweenTime, stopTweenFromLevel);
-				FP.tween(image, {scale: 1.0/3.0}, tweenTime);
+				FP.tween(image, {scale: thumbnailScale}, tweenTime);
 				
 				var b:Entity = e;
 				
@@ -70,13 +74,16 @@ package
 		{
 			var locked:Boolean = true;
 			
-			if (i == 0 || Main.so.data.completed[i]) {
+			if (true || i == 0 || Main.so.data.completed[i]) {
 				locked = false;
 			}
 			
 			var button:Entity = new Entity;
 			
-			button.setHitbox(10*12, 8*12, 10*6, 8*6);
+			var w:int = Math.round(Main.TW * Main.TILES_WIDE * thumbnailScale);
+			var h:int = Math.round(Main.TW * Main.TILES_HIGH * thumbnailScale);
+			
+			button.setHitbox(w, h, w/2, h/2);
 			
 			var spacingX:Number = (FP.width - button.width*4)/5;
 			var spacingY:Number = (FP.height - button.height*3)/4;
@@ -87,7 +94,7 @@ package
 			button.layer = i + 1;
 			
 			var imageLarge:Image = new Image(getLevelImage(i, locked));
-			imageLarge.scale = 1/3;
+			imageLarge.scale = thumbnailScale;
 			imageLarge.centerOO();
 			imagesLarge[button.layer] = imageLarge;
 			
@@ -162,7 +169,7 @@ package
 				
 				var image:Image = imagesLarge[b.layer];
 				
-				var targetScale:Number = 1.0/3.0;
+				var targetScale:Number = thumbnailScale;
 				
 				if (b == e) {
 					targetScale = 0.5;
@@ -232,8 +239,8 @@ package
 			
 			var large:BitmapData = getLevelImage(i, locked);
 			
-			var w:int = large.width/3;
-			var h:int = large.height/3;
+			var w:int = Math.round(large.width*thumbnailScale);
+			var h:int = Math.round(large.height*thumbnailScale);
 			
 			var small:BitmapData = new BitmapData(w, h, true, 0x0);
 			
@@ -255,7 +262,7 @@ package
 			}
 			
 			var image:Image = new Image(large);
-			image.scale = 1/3;
+			image.scale = thumbnailScale;
 			
 			Draw.setTarget(small);
 			Draw.graphic(image);
@@ -280,8 +287,8 @@ package
 			
 			FP.randomSeed = i + 1;
 			
-			var w:int = 10*36;
-			var h:int = 8*36;
+			var w:int = Main.TW*Main.TILES_WIDE;
+			var h:int = Main.TW*Main.TILES_HIGH;
 			
 			var bitmap:BitmapData = new BitmapData(w, h, true, 0x0);
 			
