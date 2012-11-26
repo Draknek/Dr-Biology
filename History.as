@@ -41,12 +41,12 @@ package
 				
 				var button:Button = new Button(image, BUTTON_CALLBACKS[i]);
 				
-				if (Main.touchscreen && FP.height < Main.TW*8 + button.width*2) {
-					button.y = i*button.height*2;
-				} else if (Main.touchscreen) {
-					button.x = i*button.width*2;
+				var spacing:Number = Main.touchscreen ? 1.5 : 1.0;
+				
+				if (FP.height < Main.TW*8 + button.width*2) {
+					button.y = i*button.height*spacing;
 				} else {
-					button.x = i*button.width;
+					button.x = i*button.width*spacing;
 				}
 				
 				level.add(button);
