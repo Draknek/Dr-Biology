@@ -60,8 +60,8 @@ package
 			
 			type = "button";
 			
-			width = image.width;
-			height = image.height;
+			width = image.scaledWidth;
+			height = image.scaledHeight;
 			
 			callback = _callback;
 		}

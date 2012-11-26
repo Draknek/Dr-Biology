@@ -28,6 +28,8 @@ package
 			}
 			
 			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
+			buttonImage.scale = Main.SCALE;
+			buttonImage.smooth = true;
 			buttonImage.frame = 2;
 			
 			var button:Button = new Button(buttonImage, gotoMenu);
@@ -74,7 +76,7 @@ package
 		{
 			var locked:Boolean = true;
 			
-			if (true || i == 0 || Main.so.data.completed[i]) {
+			if (i == 0 || Main.so.data.completed[i]) {
 				locked = false;
 			}
 			
@@ -263,6 +265,7 @@ package
 			
 			var image:Image = new Image(large);
 			image.scale = thumbnailScale;
+			image.smooth = true;
 			
 			Draw.setTarget(small);
 			Draw.graphic(image);

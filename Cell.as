@@ -28,6 +28,8 @@ package
 		[Embed(source="images/idlegerm.png")]
 		public static const Gfx: Class;
 		
+		public static var imageSource:BitmapData;
+		
 		public static var sharedArrows:Image = new Image(ArrowsGfx);
 		
 		public var image:Spritemap;
@@ -54,8 +56,13 @@ package
 			
 			setHitbox(Main.TW, Main.TW, Main.TW*0.5, Main.TW*0.5);
 			
+			var imageSize:int = 32 * Main.SCALE;
 			
-			var sprite:Spritemap = new Spritemap(Gfx, 32, 32);
+			if (! imageSource) {
+				imageSource = Main.scaleFunction(FP.getBitmap(Gfx));
+			}
+			
+			var sprite:Spritemap = new Spritemap(imageSource, imageSize, imageSize);
 			
 			sprite.add("wobble", FP.frames(0, sprite.frameCount-1), 0.04*(1 + Math.random()));
 			
@@ -65,7 +72,7 @@ package
 			
 			image = sprite;
 			
-			sprite = new Spritemap(Gfx, 32, 32);
+			sprite = new Spritemap(imageSource, imageSize, imageSize);
 			
 			sprite.add("wobble", FP.frames(0, sprite.frameCount-1), 0.04*(1 + Math.random()));
 			
@@ -304,7 +311,7 @@ package
 			}
 			
 			if (lastFrameValue != image.frame) {
-				text.size = FP.rand(4) + 15;
+				text.size = FP.rand(4) + 15*Main.SCALE;
 				
 				lastFrameValue = image.frame;
 			}

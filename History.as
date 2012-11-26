@@ -4,6 +4,8 @@ package
 	import net.flashpunk.graphics.*;
 	import net.flashpunk.utils.*;
 	
+	import flash.display.*;
+	
 	public class History
 	{
 		public var level:Level;
@@ -18,6 +20,8 @@ package
 		[Embed(source="images/buttons.png")]
 		public static const ButtonsGfx: Class;
 		
+		public static var scaledButtonsGfx:BitmapData;
+		
 		public var undoButton:Button;
 		
 		public static var buttonsVisible:int = 0;
@@ -29,13 +33,19 @@ package
 			const BUTTON_CALLBACKS: Array = [Level.gotoMenu, reset, queueUndo];
 			const BUTTON_FRAMES: Array = [2, 1, 0];
 			
+			if (! scaledButtonsGfx) {
+				scaledButtonsGfx = Main.scaleFunction(FP.getBitmap(ButtonsGfx));
+			}
+			
 			for (var i:int = 0; i < BUTTON_CALLBACKS.length; i++) {
-				var image:Spritemap = new Spritemap(ButtonsGfx, 48, 48);
+				var image:Spritemap = new Spritemap(scaledButtonsGfx, 48*Main.SCALE, 48*Main.SCALE);
+				//image.scale = Main.SCALE;
+				//image.smooth = true;
 				image.frame = BUTTON_FRAMES[i];
 				
 				var button:Button = new Button(image, BUTTON_CALLBACKS[i]);
 				
-				if (Main.touchscreen && FP.height < 36*8+48*2) {
+				if (Main.touchscreen && FP.height < Main.TW*8 + button.width*2) {
 					button.y = i*button.height*2;
 				} else if (Main.touchscreen) {
 					button.x = i*button.width*2;

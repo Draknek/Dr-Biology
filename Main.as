@@ -17,6 +17,12 @@ package
 	public class Main extends Engine
 	{
 		public static var TW:int = 36;
+		public static var SCALE:int = 1;
+		
+		public static var TILES_WIDE:int = 10;
+		public static var TILES_HIGH:int = 8;
+		
+		public static var scaleFunction:Function;
 		
 		public static var devMode:Boolean = true;
 		
@@ -77,6 +83,28 @@ package
 				w = Preloader.stage.stageWidth;
 				h = Preloader.stage.stageHeight;
 			}
+			
+			TW = Math.min(Math.floor(w/TILES_WIDE), Math.floor(h/TILES_HIGH));
+			
+			TW = Math.floor(TW/2)*2;
+			
+			SCALE = Math.floor(TW/36);
+			
+			if (SCALE < 1) SCALE = 1;
+			if (SCALE > 4) SCALE = 4;
+			
+			TW = Math.floor(TW / SCALE);
+			
+			if (TW <= 32) TW = 32;
+			else if (TW <= 40) TW = 34;
+			else if (TW <= 48) TW = 36;
+			else TW = 38;
+			
+			TW *= SCALE;
+			
+			TW = Math.floor(TW/2)*2;
+			
+			scaleFunction = ScaleX["scale" + SCALE + "x"];
 			
 			super(w, h, 60, true);
 			
