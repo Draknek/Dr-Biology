@@ -24,6 +24,8 @@ package
 		
 		public var undoButton:Button;
 		
+		public var buttons:Array = [];
+		
 		public static var buttonsVisible:int = 0;
 		
 		public function History (_level:Level)
@@ -56,9 +58,11 @@ package
 				level.add(button);
 				
 				if (i >= History.buttonsVisible) {
-					image.alpha = 0;
-					FP.tween(image, {alpha: 1}, 60);
+					button.alpha = 0;
+					FP.tween(button, {alpha: 1.0}, 60);
 				}
+				
+				buttons.push(button);
 			}
 			
 			undoButton = button;
@@ -99,6 +103,8 @@ package
 			if (Input.pressed(Key.R)) {
 				reset();
 			}
+			
+			buttons[1].disabled = buttons[2].disabled = (undoStack.length == 0);
 			
 			if (level.busy) {
 				return;

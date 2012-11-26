@@ -12,6 +12,9 @@ package
 		public var image:Image;
 		public var callback:Function;
 		
+		public var alpha:Number = 1.0;
+		public var disabled:Boolean = false;
+		
 		public static var defaultColorTextNormal:uint = 0x6AAE26;
 		public static var defaultColorTextHover:uint = 0x1F922E;
 		public static var defaultColorImageNormal:uint = 0xFFFFFF;
@@ -68,7 +71,11 @@ package
 		
 		public override function update (): void
 		{
-			if (!world || !collidable || !visible) return;
+			if (disabled || !world || !collidable || !visible) {
+				image.color = normalColor;
+				over = false;
+				return;
+			}
 			
 			over = collidePoint(x, y, Input.mouseX, Input.mouseY);
 			
@@ -89,6 +96,13 @@ package
 				lastPressed = this;
 				callback();
 			}
+		}
+		
+		public override function render (): void
+		{
+			image.alpha = alpha * (disabled ? 0.5 : 1.0);
+			
+			super.render();
 		}
 	}
 }
