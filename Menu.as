@@ -14,9 +14,11 @@ package
 		
 		public function Menu ()
 		{
+			var scale:Number = FP.height / 480;
+			
 			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {
 				//outlineStrength: 0.0, outlineColor: Button.defaultColorTextHover, letterSpacing: 0,
-				size: 50, color: 0x0E394E, align: "center"
+				size: 50*scale, color: 0x0E394E, align: "center"
 			});
 			
 			/*var logo:Image = new Image(LogoGfx);
@@ -48,15 +50,15 @@ package
 				playText = "Continue";
 			}
 			
-			button = new Button({text: playText, size: 40}, gotoLevel);
+			button = new Button({text: playText, size: 40*scale}, gotoLevel);
 			buttons.push(button);
 			
 			if (Main.so.data.completed[1]) {
-				button = new Button({text: "Level select", size: 40}, gotoLevelSelect);
+				button = new Button({text: "Level select", size: 40*scale}, gotoLevelSelect);
 				buttons.push(button);
 			}
 			
-			//button = new Button({text: "About", size: 40}, null);
+			//button = new Button({text: "About", size: 40*scale}, null);
 			//buttons.push(button);
 			
 			addButtons(buttons);
