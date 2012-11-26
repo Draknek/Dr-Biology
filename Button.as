@@ -100,6 +100,8 @@ package
 		
 		public override function render (): void
 		{
+			if (world != FP.world) return;
+			
 			image.alpha = alpha * (disabled ? 0.5 : 1.0);
 			
 			super.render();

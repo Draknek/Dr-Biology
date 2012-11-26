@@ -62,6 +62,8 @@ package
 					FP.tween(button, {alpha: 1.0}, 60);
 				}
 				
+				if (i > 0) button.disabled = true;
+				
 				buttons.push(button);
 			}
 			
@@ -104,7 +106,7 @@ package
 				reset();
 			}
 			
-			buttons[1].disabled = buttons[2].disabled = (undoStack.length == 0);
+			buttons[1].disabled = buttons[2].disabled = (level.nextLevel || undoStack.length == 0);
 			
 			if (level.busy) {
 				return;

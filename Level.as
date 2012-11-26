@@ -155,7 +155,7 @@ package
 					var tweenDelay:int = 60;
 					
 					FP.tween(nextLevel.camera, {x: nextLevel.camera.x + FP.width}, tweenTime, {delay: tweenDelay});
-					FP.tween(camera, {x: camera.x + FP.width}, tweenTime, {delay: tweenDelay, complete: onComplete});
+					FP.tween(camera, {x: camera.x + FP.width}, tweenTime, {delay: tweenDelay, complete: onComplete, tweener: this});
 				}
 			}
 		}
