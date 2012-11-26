@@ -261,6 +261,8 @@ package
 				
 				if (spacingX < maxSpacingX) {
 					textSize = FP.lerp(24, 30, spacingX / maxSpacingX);
+				} else {
+					textSize = 30 * (Main.TW/36);
 				}
 				
 				textCache = new Text("LOCKED", w*0.5, h*0.5, {size: textSize, color: 0x0});
