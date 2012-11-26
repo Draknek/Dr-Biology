@@ -20,8 +20,6 @@ package
 		[Embed(source="images/buttons.png")]
 		public static const ButtonsGfx: Class;
 		
-		public static var scaledButtonsGfx:BitmapData;
-		
 		public var undoButton:Button;
 		
 		public var buttons:Array = [];
@@ -35,14 +33,10 @@ package
 			const BUTTON_CALLBACKS: Array = [Level.gotoMenu, reset, queueUndo];
 			const BUTTON_FRAMES: Array = [2, 1, 0];
 			
-			if (! scaledButtonsGfx) {
-				scaledButtonsGfx = Main.scaleFunction(FP.getBitmap(ButtonsGfx));
-			}
-			
 			for (var i:int = 0; i < BUTTON_CALLBACKS.length; i++) {
-				var image:Spritemap = new Spritemap(scaledButtonsGfx, 48*Main.SCALE, 48*Main.SCALE);
-				//image.scale = Main.SCALE;
-				//image.smooth = true;
+				var image:Spritemap = new Spritemap(ButtonsGfx, 48, 48);
+				image.scale = Main.SCALE;
+				image.smooth = true;
 				image.frame = BUTTON_FRAMES[i];
 				
 				var button:Button = new Button(image, BUTTON_CALLBACKS[i]);
