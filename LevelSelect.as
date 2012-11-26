@@ -61,6 +61,8 @@ package
 				FP.tween(e, {x: toX, y: toY}, tweenTime, stopTweenFromLevel);
 				FP.tween(image, {scale: thumbnailScale}, tweenTime);
 				
+				e.layer = -e.layer;
+				
 				var b:Entity = e;
 				
 				for each (e in buttons) {
@@ -151,6 +153,8 @@ package
 					
 					e.graphic = imagesLarge[e.layer];
 					
+					e.layer = -e.layer;
+					
 					FP.tween(e.graphic, {scale: 1.0}, tweenTime);
 					FP.tween(e, {x: FP.width*0.5, y: FP.height*0.5}, tweenTime, {complete: tweenComplete});
 					
@@ -198,6 +202,7 @@ package
 			fromWorld = null;
 			
 			for each (var e:Entity in buttons) {
+				e.layer = Math.abs(e.layer);
 				e.graphic = imagesSmall[e.layer];
 			}
 		}
