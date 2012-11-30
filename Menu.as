@@ -80,6 +80,11 @@ package
 			FP.world = new LevelSelect;
 		}
 		
+		public override function begin ():void
+		{
+			Audio.startMusic();
+		}
+		
 		public override function update ():void
 		{
 			History.buttonsVisible = 0;
