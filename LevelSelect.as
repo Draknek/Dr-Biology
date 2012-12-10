@@ -164,6 +164,8 @@ package
 						}
 					}
 					
+					Audio.play("button_click");
+					
 					return;
 				}
 			}

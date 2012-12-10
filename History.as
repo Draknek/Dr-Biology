@@ -76,11 +76,19 @@ package
 			
 			if (Input.pressed(Key.Z)) {
 				queueUndo();
+				
+				if (undoStack.length) {
+					Audio.play("button_click");
+				}
 			}
 			
-			if (Input.pressed(Key.Y)) {
+			/*if (Input.pressed(Key.Y)) {
 				queueRedo();
-			}
+				
+				if (redoStack.length) {
+					Audio.play("button_click");
+				}
+			}*/
 			
 			delta = int(Input.check(Key.Z)) - int(Input.check(Key.Y));
 			
@@ -98,6 +106,10 @@ package
 			
 			if (Input.pressed(Key.R)) {
 				reset();
+				
+				if (undoStack.length) {
+					Audio.play("button_click");
+				}
 			}
 			
 			buttons[1].disabled = buttons[2].disabled = (level.nextLevel || undoStack.length == 0);
@@ -110,8 +122,12 @@ package
 				if (repeatUndo > 45) {
 					queueUndo();
 				}
-				if (repeatUndo < -45) {
+				else if (repeatUndo < -45) {
 					queueRedo();
+				}
+				
+				if (level.actions.length == 0) {
+					Audio.stopRewind();
 				}
 			}
 		}
@@ -147,6 +163,8 @@ package
 		private function undo ():void
 		{
 			if (level.done) return;
+			
+			Audio.startRewind();
 			
 			var undoData:Object = undoStack.pop();
 			
