@@ -81,6 +81,7 @@ package
 			if (rewindTween) rewindTween.cancel();
 			rewindTween = FP.tween(rewind, {volume: 1.0}, 6);
 			rewindPlaying = true;
+			FP.tween(music, {volume: 0.5}, 6);
 		}
 		
 		public static function stopRewind ():void
@@ -89,6 +90,7 @@ package
 			if (rewindTween) rewindTween.cancel();
 			rewindPlaying = false;
 			rewindTween = FP.tween(rewind, {volume: 0}, 30);
+			FP.tween(music, {volume: 1.0}, 10);
 		}
 		
 	}

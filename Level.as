@@ -109,6 +109,14 @@ package
 				}
 			}
 			
+			/*if (Input.pressed(Key.F1)) {
+				Audio.startRewind();
+			}
+			
+			if (Input.pressed(Key.F2)) {
+				Audio.stopRewind();
+			}*/
+			
 			if (Input.pressed(Key.ESCAPE)) {
 				gotoMenu();
 				return;
