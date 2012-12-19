@@ -6,9 +6,9 @@ package
 	{
 		[Embed(source="audio/split.mp3")] public static const Sfx_split:Class;
 		[Embed(source="audio/yay.mp3")] public static const Sfx_yay:Class;
-		//[Embed(source="audio/split.mp3")] public static const Sfx_nope:Class;
+		[Embed(source="audio/nope.mp3")] public static const Sfx_nope:Class;
 		
-		[Embed(source="audio/split2.mp3")] public static const Sfx_split2:Class;
+		//[Embed(source="audio/split2.mp3")] public static const Sfx_split2:Class;
 		[Embed(source="audio/yay2.mp3")] public static const Sfx_yay2:Class;
 		
 		[Embed(source="audio/music.mp3")] public static const Sfx_music:Class;
@@ -35,6 +35,9 @@ package
 		{
 			var volume:Number = 0.4;
 			
+			if (sound == "split") volume = 0.1;
+			if (sound == "yay2") volume = 1.0;
+			
 			if (! sounds[sound]) {
 				var embed:Class = Audio["Sfx_" + sound];
 				
@@ -48,6 +51,8 @@ package
 			if (sounds[sound] is Sfx) {
 				sounds[sound].play(volume);
 			}
+			
+			if (sound == "yay") return;
 			
 			sound += "2";
 			

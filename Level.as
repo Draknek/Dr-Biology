@@ -152,7 +152,7 @@ package
 			if (done) {
 				Main.so.data.completed[id] = true;
 				
-				Audio.play("yay");
+				Audio.play("yay2");
 				
 				if (id != 0) {
 					nextLevel = new Level(null, id+1);
@@ -164,6 +164,8 @@ package
 					
 					FP.tween(nextLevel.camera, {x: nextLevel.camera.x + FP.width}, tweenTime, {delay: tweenDelay});
 					FP.tween(camera, {x: camera.x + FP.width}, tweenTime, {delay: tweenDelay, complete: onComplete, tweener: this});
+					
+					FP.alarm(tweenDelay*0.5, onComplete2);
 				}
 			}
 		}
@@ -176,6 +178,11 @@ package
 		public function onComplete ():void
 		{
 			FP.world = nextLevel;
+		}
+		
+		public function onComplete2 ():void
+		{
+			Audio.play("yay");
 		}
 		
 		public function centerLevel ():void

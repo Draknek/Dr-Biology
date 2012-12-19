@@ -209,6 +209,7 @@ package
 				var dist:Number = 0.75;
 				image2.x = width*dist*dx*0.33;
 				image2.y = height*dist*dy*0.33;
+				Audio.play("nope");
 				return;
 			}
 			
