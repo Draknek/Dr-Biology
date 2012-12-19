@@ -78,24 +78,31 @@ package
 		}
 		
 		private static var rewindTween:Tween;
+		private static var rewindTween2:Tween;
 		private static var rewindPlaying:Boolean = false;
 		
 		public static function startRewind ():void
 		{
 			if (rewindPlaying) return;
 			if (rewindTween) rewindTween.cancel();
-			rewindTween = FP.tween(rewind, {volume: 1.0}, 6);
+			if (rewindTween2) rewindTween2.cancel();
+			
+			rewindTween = FP.tween(rewind, {volume: 1.5}, 6);
+			rewindTween2 = FP.tween(music, {volume: 0.4}, 6);
+			
 			rewindPlaying = true;
-			FP.tween(music, {volume: 0.5}, 6);
 		}
 		
 		public static function stopRewind ():void
 		{
 			if (! rewindPlaying) return;
 			if (rewindTween) rewindTween.cancel();
-			rewindPlaying = false;
+			if (rewindTween2) rewindTween2.cancel();
+			
 			rewindTween = FP.tween(rewind, {volume: 0}, 30);
-			FP.tween(music, {volume: 1.0}, 10);
+			rewindTween2 = FP.tween(music, {volume: 1.0}, 10);
+			
+			rewindPlaying = false;
 		}
 		
 	}
