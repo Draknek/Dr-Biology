@@ -5,6 +5,8 @@ package
 	import net.flashpunk.masks.*;
 	import net.flashpunk.utils.*;
 	
+	import flash.net.*;
+	
 	public class Menu extends World
 	{
 		public var title:Text;
@@ -61,6 +63,11 @@ package
 			//button = new Button({text: "About", size: 40*scale}, null);
 			//buttons.push(button);
 			
+			if (Main.platform) {
+				button = new Button({text: "More games", size: 40*scale}, gotoMoreGames);
+				buttons.push(button);
+			}
+			
 			addButtons(buttons);
 		}
 		
@@ -78,6 +85,14 @@ package
 		public static function gotoLevelSelect ():void
 		{
 			FP.world = new LevelSelect;
+		}
+		
+		public static function gotoMoreGames ():void
+		{
+			var url:String = "http://www.draknek.org/games/more/?from=drbiology&platform=" + Main.platform;
+			
+			var urlRequest:URLRequest = new URLRequest(url);
+			navigateToURL(urlRequest,'_blank');
 		}
 		
 		public override function begin ():void
