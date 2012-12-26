@@ -14,11 +14,7 @@ package
 		[Embed(source="audio/music.mp3")] public static const Sfx_music:Class;
 		[Embed(source="audio/rewind.mp3")] public static const Sfx_rewind:Class;
 		
-		//[Embed(source="audio/button-click.mp3")] public static const Sfx_button_click:Class;
-		[Embed(source="audio/wip/Button04.mp3")] public static const Sfx_button_click1:Class;
-		[Embed(source="audio/wip/Button05.mp3")] public static const Sfx_button_click2:Class;
-		[Embed(source="audio/wip/Button06.mp3")] public static const Sfx_button_click3:Class;
-		[Embed(source="audio/wip/Button07.mp3")] public static const Sfx_button_click4:Class;
+		[Embed(source="audio/button-click.mp3")] public static const Sfx_button_click:Class;
 		//[Embed(source="audio/button-hover.mp3")] public static const Sfx_button_hover:Class;
 		
 		private static var sounds:Object = {};
@@ -41,10 +37,6 @@ package
 			
 			if (sound == "split") volume = 0.1;
 			if (sound == "yay2") volume = 1.0;
-			if (sound == "button_click") {
-				volume = 0.2;
-				sound += FP.choose(1,2,3,4);
-			}
 			
 			if (! sounds[sound]) {
 				var embed:Class = Audio["Sfx_" + sound];
