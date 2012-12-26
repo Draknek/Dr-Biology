@@ -73,6 +73,8 @@ package
 		
 		public static function gotoLevel ():void
 		{
+			Audio.play("button_click");
+			
 			var lastPlayed:int = Main.so.data.currentlevel;
 			
 			if (lastPlayed >= 1 && lastPlayed <= 12) {
@@ -84,11 +86,15 @@ package
 		
 		public static function gotoLevelSelect ():void
 		{
+			Audio.play("button_click");
+			
 			FP.world = new LevelSelect;
 		}
 		
 		public static function gotoMoreGames ():void
 		{
+			Audio.play("button_click");
+			
 			var url:String = "http://www.draknek.org/games/more/?from=drbiology&platform=" + Main.platform;
 			
 			var urlRequest:URLRequest = new URLRequest(url);

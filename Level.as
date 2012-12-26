@@ -172,6 +172,8 @@ package
 		
 		public static function gotoMenu ():void
 		{
+			Audio.play("button_click");
+			
 			FP.world = new Main.MenuClass;
 		}
 		

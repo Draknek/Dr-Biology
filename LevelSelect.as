@@ -211,6 +211,8 @@ package
 		
 		public function gotoMenu ():void
 		{
+			Audio.play("button_click");
+			
 			if (! nextWorld) {
 				FP.world = new Menu;
 				return;

@@ -95,7 +95,6 @@ package
 			if (over && Input.mousePressed && callback != null) {
 				lastPressed = this;
 				callback();
-				Audio.play("button_click");
 			}
 		}
 		

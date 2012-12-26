@@ -78,7 +78,7 @@ package
 				queueUndo();
 				
 				if (undoStack.length) {
-					Audio.play("button_click");
+					//Audio.play("button_click");
 				}
 			}
 			
@@ -108,7 +108,7 @@ package
 				reset();
 				
 				if (undoStack.length) {
-					Audio.play("button_click");
+					//Audio.play("button_click");
 				}
 			}
 			
