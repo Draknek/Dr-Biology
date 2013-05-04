@@ -55,30 +55,6 @@ package
 				}
 			}
 			
-			if (id >= LevelData.levels.length) {
-				var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!\n ", 0, 0, {size: 48, color: 0x0, align: "center"});
-			
-				title.centerOO();
-			
-				title.x = FP.width * 0.5;
-				title.y = FP.height * 0.3;
-				
-				title.scrollX = title.scrollY = 0;
-			
-				addGraphic(title);
-				
-				title = new Text("Made by Dr. Biology\nand Alan Hazelden\n\nGraphics by Cap'n Lee\n ", 0, 0, {size: 36, color: 0x0, align: "center"});
-			
-				title.centerOO();
-			
-				title.x = FP.width * 0.5;
-				title.y = FP.height * 0.75;
-				
-				title.scrollX = title.scrollY = 0;
-			
-				addGraphic(title);
-			}
-			
 			history = new History(this);
 			
 			centerLevel();
@@ -129,11 +105,6 @@ package
 				return;
 			}
 			
-			if (id != 0 && Input.pressed(Key.SPACE)) {
-				//FP.world = new Level(null, id+1);
-				return;
-			}
-			
 			var a:Array = [];
 			
 			getType("cell", a);
@@ -149,13 +120,22 @@ package
 				}
 			}
 			
+			if (id != 0 && Input.pressed(Key.SPACE)) {
+				done = true;
+			}
+			
 			if (done) {
 				Main.so.data.completed[id] = true;
 				
 				Audio.play("yay2");
 				
 				if (id != 0) {
-					nextLevel = new Level(null, id+1);
+					if (id == LevelData.levels.length - 1) {
+						nextLevel = new ThanksScreen;
+					} else {
+						nextLevel = new Level(null, id+1);
+					}
+					
 					nextLevel.updateLists();
 					nextLevel.camera.x -= FP.width;
 					
