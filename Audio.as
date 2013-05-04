@@ -22,10 +22,12 @@ package
 		public static var music:Sfx;
 		public static var rewind:Sfx;
 		
+		public static const MUSIC_VOLUME:Number = 0.8;
+		
 		public static function startMusic ():void
 		{
 			music = new Sfx(Sfx_music);
-			music.loop();
+			music.loop(MUSIC_VOLUME);
 			
 			rewind = new Sfx(Sfx_rewind);
 			rewind.loop(0.0);
@@ -37,6 +39,7 @@ package
 			
 			if (sound == "split") volume = 0.1;
 			if (sound == "yay2") volume = 1.0;
+			if (sound == "button_click") volume = 0.5;
 			
 			if (! sounds[sound]) {
 				var embed:Class = Audio["Sfx_" + sound];
@@ -87,8 +90,8 @@ package
 			if (rewindTween) rewindTween.cancel();
 			if (rewindTween2) rewindTween2.cancel();
 			
-			rewindTween = FP.tween(rewind, {volume: 1.5}, 6);
-			rewindTween2 = FP.tween(music, {volume: 0.4}, 6);
+			rewindTween = FP.tween(rewind, {volume: 1.2}, 6);
+			rewindTween2 = FP.tween(music, {volume: 0.0}, 6);
 			
 			rewindPlaying = true;
 		}
@@ -100,7 +103,7 @@ package
 			if (rewindTween2) rewindTween2.cancel();
 			
 			rewindTween = FP.tween(rewind, {volume: 0}, 30);
-			rewindTween2 = FP.tween(music, {volume: 1.0}, 10);
+			rewindTween2 = FP.tween(music, {volume: MUSIC_VOLUME}, 90);
 			
 			rewindPlaying = false;
 		}
