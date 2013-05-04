@@ -63,10 +63,8 @@ package
 			button = new Button({text: "About", size: 40*scale}, gotoAbout);
 			buttons.push(button);
 			
-			if (Main.platform) {
-				button = new Button({text: "More games", size: 40*scale}, gotoMoreGames);
-				buttons.push(button);
-			}
+			button = new Button({text: "More games", size: 40*scale}, gotoMoreGames);
+			buttons.push(button);
 			
 			addButtons(buttons);
 		}
