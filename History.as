@@ -26,9 +26,9 @@ package
 		
 		public static var buttonsVisible:int = 0;
 		
-		public function History (_level:Level)
+		public function History (_world:World)
 		{
-			level = _level;
+			level = _world as Level;
 			
 			const BUTTON_CALLBACKS: Array = [Level.gotoMenu, reset, queueUndo];
 			const BUTTON_FRAMES: Array = [2, 1, 0];
@@ -49,7 +49,7 @@ package
 					button.x = i*button.width*spacing;
 				}
 				
-				level.add(button);
+				_world.add(button);
 				
 				if (i >= History.buttonsVisible) {
 					button.alpha = 0;

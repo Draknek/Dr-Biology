@@ -11,7 +11,6 @@ package
 		{
 			Main.so.data.currentlevel = 0;
 			Main.MenuClass = Menu;
-			History.buttonsVisible = 1;
 			
 			var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!\n ", 0, 0, {size: 48, color: 0x0, align: "center"});
 		
@@ -34,16 +33,31 @@ package
 			//title.scrollX = title.scrollY = 0;
 		
 			addGraphic(title);
+			
+			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
+			buttonImage.scale = Main.SCALE;
+			buttonImage.smooth = true;
+			buttonImage.frame = 2;
+			
+			var button:Button = new Button(buttonImage, gotoMenu);
+			
+			add(button);
 		}
 		
 		public override function update (): void
 		{
+			History.buttonsVisible = 1;
+			
 			Main.so.data.currentlevel = 0;
+			
+			Input.mouseCursor = "auto";
 			
 			if (Input.pressed(Key.ESCAPE) || Input.pressed(Key.SPACE)) {
 				gotoMenu();
 				return;
 			}
+			
+			super.update();
 		}
 		
 		public static function gotoMenu ():void

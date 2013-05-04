@@ -132,6 +132,8 @@ package
 				if (id != 0) {
 					if (id == LevelData.levels.length - 1) {
 						nextLevel = new ThanksScreen;
+						FP.tween(history.buttons[1], {alpha: 0}, 60);
+						FP.tween(history.buttons[2], {alpha: 0}, 60);
 					} else {
 						nextLevel = new Level(null, id+1);
 					}
