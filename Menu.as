@@ -35,7 +35,7 @@ package
 			
 			title.x = (FP.width - title.width) * 0.5;
 			//title.x = logo.x + logo.scaledWidth;
-			title.y = 50;
+			title.y = 50*scale;
 			
 			//addGraphic(logo);
 			addGraphic(title);
@@ -60,8 +60,8 @@ package
 				buttons.push(button);
 			}
 			
-			//button = new Button({text: "About", size: 40*scale}, null);
-			//buttons.push(button);
+			button = new Button({text: "About", size: 40*scale}, gotoAbout);
+			buttons.push(button);
 			
 			if (Main.platform) {
 				button = new Button({text: "More games", size: 40*scale}, gotoMoreGames);
@@ -89,6 +89,13 @@ package
 			Audio.play("button_click");
 			
 			FP.world = new LevelSelect;
+		}
+		
+		public static function gotoAbout ():void
+		{
+			Audio.play("button_click");
+			
+			FP.world = new AboutScreen;
 		}
 		
 		public static function gotoMoreGames ():void

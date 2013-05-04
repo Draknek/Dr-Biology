@@ -5,30 +5,31 @@ package
 	import net.flashpunk.masks.*;
 	import net.flashpunk.utils.*;
 	
-	public class ThanksScreen extends World
+	public class AboutScreen extends World
 	{	
-		public function ThanksScreen ()
+		public function AboutScreen ()
 		{
-			Main.so.data.currentlevel = 0;
-			Main.MenuClass = Menu;
+			var scale:Number = FP.height / 480;
 			
-			var title:Text = new Text("Thanks for playing\nDr. Biology's\nEducational Game!\n ", 0, 0, {size: 48, color: 0x0, align: "center"});
+			var title:Text = new Text("Dr. Biology's\nEducational Game", 0, 0, {
+				//outlineStrength: 0.0, outlineColor: Button.defaultColorTextHover, letterSpacing: 0,
+				size: 50*scale, color: 0x0E394E, align: "center"
+			});
 		
-			title.centerOO();
-		
-			title.x = FP.width * 0.5;
-			title.y = FP.height * 0.3;
+			title.x = (FP.width - title.width) * 0.5;
+			//title.x = logo.x + logo.scaledWidth;
+			title.y = 50*scale;
 			
 			//title.scrollX = title.scrollY = 0;
 		
 			addGraphic(title);
 			
-			title = new Text("Made by Dr. Biology\nand Alan Hazelden\n\nGraphics by Cap'n Lee\n ", 0, 0, {size: 36, color: 0x0, align: "center"});
+			title = new Text("was created by Dr. Biology\nwith assistance from Alan Hazelden\n\nGraphics by Cap'n Lee\n\nAudio by William Robinson\n ", 0, 0, {size: 30*scale, color: 0x0, align: "center"});
 		
 			title.centerOO();
 		
 			title.x = FP.width * 0.5;
-			title.y = FP.height * 0.75;
+			title.y = FP.height * 0.7;
 			
 			//title.scrollX = title.scrollY = 0;
 		
@@ -47,8 +48,6 @@ package
 		public override function update (): void
 		{
 			History.buttonsVisible = 1;
-			
-			Main.so.data.currentlevel = 0;
 			
 			Input.mouseCursor = "auto";
 			
