@@ -24,7 +24,7 @@ package
 		
 			addGraphic(title);
 			
-			title = new Text("was created by Dr. Biology\nwith assistance from Alan Hazelden\n\nGraphics by Cap'n Lee\n\nAudio by William Robinson\n ", 0, 0, {size: 30*scale, color: 0x0, align: "center"});
+			title = new Text("was created by Dr. Biology\nwith assistance from Alan Hazelden\n\nGraphics by Cap'n Lee\n\nAudio by William Robinson\n ", 0, 0, {size: 32*scale, color: 0x0, align: "center"});
 		
 			title.centerOO();
 		

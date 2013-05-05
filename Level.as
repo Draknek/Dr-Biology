@@ -121,7 +121,7 @@ package
 			}
 			
 			if (id != 0 && Input.pressed(Key.SPACE)) {
-				done = true;
+				//done = true;
 			}
 			
 			if (done) {
