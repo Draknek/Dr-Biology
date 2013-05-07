@@ -35,7 +35,7 @@ package
 			
 			for (var i:int = 0; i < BUTTON_CALLBACKS.length; i++) {
 				var image:Spritemap = new Spritemap(ButtonsGfx, 48, 48);
-				image.scale = Main.SCALE;
+				image.scale = Main.SCALE_BUTTONS;
 				image.smooth = true;
 				image.frame = BUTTON_FRAMES[i];
 				

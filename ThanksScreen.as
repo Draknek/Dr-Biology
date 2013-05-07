@@ -65,7 +65,7 @@ package
 			addGraphic(text);
 			
 			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
-			buttonImage.scale = Main.SCALE;
+			buttonImage.scale = Main.SCALE_BUTTONS;
 			buttonImage.smooth = true;
 			buttonImage.frame = 2;
 			

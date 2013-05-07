@@ -18,6 +18,7 @@ package
 	{
 		public static var TW:int = 36;
 		public static var SCALE:int = 1;
+		public static var SCALE_BUTTONS:Number = 1;
 		
 		public static var TILES_WIDE:int = 10;
 		public static var TILES_HIGH:int = 8;
@@ -96,6 +97,10 @@ package
 			
 			if (SCALE < 1) SCALE = 1;
 			if (SCALE > 4) SCALE = 4;
+			
+			SCALE_BUTTONS = SCALE;
+			
+			if (SCALE > 1) SCALE_BUTTONS *= 0.75;
 			
 			TW = Math.floor(TW / SCALE);
 			
