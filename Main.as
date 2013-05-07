@@ -136,6 +136,8 @@ package
 		{
 			sitelock("draknek.org");
 			
+			Audio.init(this);
+			
 			Text.font = "maian";
 			
 			FP.screen.color = 0xFFFFFF;

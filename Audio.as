@@ -2,6 +2,10 @@ package
 {
 	import net.flashpunk.*;
 	
+	import flash.display.*;
+	import flash.events.*;
+	import flash.utils.*;
+	
 	public class Audio
 	{
 		[Embed(source="audio/split.mp3")] public static const Sfx_split:Class;
@@ -24,13 +28,28 @@ package
 		
 		public static const MUSIC_VOLUME:Number = 0.8;
 		
-		public static function startMusic ():void
+		public static function init (o:InteractiveObject):void
 		{
+			if (Main.isIOS) {
+				try {
+					var SoundMixer:Class = getDefinitionByName("flash.media.SoundMixer") as Class;
+					var AudioPlaybackMode:Class = getDefinitionByName("flash.media.AudioPlaybackMode") as Class;
+					
+					SoundMixer.audioPlaybackMode = AudioPlaybackMode.AMBIENT;
+				} catch (e:Error) {}
+			}
+			
 			music = new Sfx(Sfx_music);
 			music.loop(MUSIC_VOLUME);
 			
 			rewind = new Sfx(Sfx_rewind);
 			rewind.loop(0.0);
+			
+			if (o.stage) {
+				initStage(o.stage);
+			} else {
+				o.addEventListener(Event.ADDED_TO_STAGE, stageAdd);
+			}
 		}
 		
 		public static function play (sound:String):void
@@ -108,5 +127,32 @@ package
 			rewindPlaying = false;
 		}
 		
+		private static function stageAdd (e:Event = null):void
+		{
+			initStage(e.target.stage);
+		}
+		
+		private static function initStage (stage:Stage):void
+		{
+			stage.addEventListener(Event.ACTIVATE, onFocusGain);
+			stage.addEventListener(Event.DEACTIVATE, onFocusLoss);
+		}
+		
+		private static function onFocusGain (e:Event):void
+		{
+			if (rewindTween) rewindTween.cancel();
+			if (rewindTween2) rewindTween2.cancel();
+			
+			rewindTween2 = FP.tween(music, {volume: MUSIC_VOLUME}, 10);
+		}
+		
+		private static function onFocusLoss (e:Event):void
+		{
+			if (rewindTween) rewindTween.cancel();
+			if (rewindTween2) rewindTween2.cancel();
+			
+			rewindTween = FP.tween(rewind, {volume: 0.0}, 6);
+			rewindTween2 = FP.tween(music, {volume: 0.0}, 6);
+		}
 	}
 }

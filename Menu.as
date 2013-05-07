@@ -106,11 +106,6 @@ package
 			navigateToURL(urlRequest,'_blank');
 		}
 		
-		public override function begin ():void
-		{
-			Audio.startMusic();
-		}
-		
 		public override function update ():void
 		{
 			History.buttonsVisible = 0;
