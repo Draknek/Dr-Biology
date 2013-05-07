@@ -49,6 +49,11 @@ package
 					button.x = i*button.width*spacing;
 				}
 				
+				if (Main.touchscreen) {
+					button.x -= button.width * (1 - spacing)*0.3;
+					button.y -= button.height * (1 - spacing)*0.3;
+				}
+				
 				_world.add(button);
 				
 				if (i >= History.buttonsVisible) {

@@ -71,6 +71,11 @@ package
 			
 			button = new Button(buttonImage, gotoMenu);
 			
+			if (Main.touchscreen) {
+				button.x -= button.width * (1 - 1.5)*0.3;
+				button.y -= button.height * (1 - 1.5)*0.3;
+			}
+			
 			add(button);
 		}
 		
