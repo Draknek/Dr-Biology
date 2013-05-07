@@ -112,6 +112,8 @@ package
 			
 			super(w, h, 60, true);
 			
+			FP.screen.color = 0xf7dfd4;
+			
 			//FP.console.enable();
 		}
 		
@@ -139,8 +141,6 @@ package
 			Audio.init(this);
 			
 			Text.font = "maian";
-			
-			FP.screen.color = 0xFFFFFF;
 			
 			LevelData.readLevelPack(new LEVELS);
 			
@@ -285,22 +285,7 @@ package
 		
 		public override function preRender ():void
 		{
-			if (! bg) {
-				bg = new BitmapData(FP.width, FP.height, true, 0x0);
-				
-				var e:Entity = new Entity(0, 0, new Backdrop(BgGfx));
-				e.renderTarget = bg;
-				e.render();
-				
-				var m:Matrix = new Matrix;
-				m.createGradientBox(FP.width, FP.height, 0, 0, 0);
-				FP.sprite.graphics.clear();
-				FP.sprite.graphics.beginGradientFill("radial", [0x0, 0x0], [0.0,1.0], [0,255], m);
-				FP.sprite.graphics.drawRect(0, 0, FP.width, FP.height);
-				FP.sprite.graphics.endFill();
-				
-				bg.draw(FP.sprite, null, null, "overlay");
-			}
+			if (! bg) bg = Preloader.bg;
 			
 			FP.buffer.copyPixels(bg, bg.rect, FP.zero);
 		}

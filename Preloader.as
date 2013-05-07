@@ -4,7 +4,9 @@ package
 	import flash.display.*;
 	import flash.text.*;
 	import flash.events.*;
+	import flash.geom.*;
 	import flash.utils.getDefinitionByName;
+	import flash.system.*;
 
 	[SWF(width = "640", height = "480", backgroundColor = "#f7dfd4")]
 	public class Preloader extends Sprite
@@ -23,6 +25,8 @@ package
 		public static const FONT1:Class;
 		
 		public static var stage:Stage;
+		
+		public static var bg:BitmapData;
 		
 		
 		
@@ -44,8 +48,24 @@ package
 		{
 			Preloader.stage = this.stage;
 			
+			var touchscreen:Boolean = false;
+			
+			if (Capabilities.manufacturer.toLowerCase().indexOf("ios") != -1) {
+				touchscreen = true;
+			}
+			else if (Capabilities.manufacturer.toLowerCase().indexOf("android") >= 0) {
+				touchscreen = true;
+			} else if (Capabilities.os.indexOf("QNX") >= 0) {
+				touchscreen = true;
+			}
+			
 			sw = stage.stageWidth;
 			sh = stage.stageHeight;
+			
+			if (touchscreen) {
+				sw = stage.fullScreenWidth;
+				sh = stage.fullScreenHeight;
+			}
 			
 			w = stage.stageWidth * 0.8;
 			h = 20;
@@ -53,19 +73,13 @@ package
 			px = (sw - w) * 0.5;
 			py = (sh - h) * 0.5;
 			
-			var bg:Bitmap = new BgGfx;
-			
-			graphics.beginBitmapFill(bg.bitmapData);
-			graphics.drawRect(0, 0, sw, sh);
-			graphics.endFill();
+			addBG();
 			
 			graphics.beginFill(FG_COLOR);
 			graphics.drawRect(px - 2, py - 2, w + 4, h + 4);
 			graphics.endFill();
 			
 			progressBar = new Shape();
-			
-			addChild(progressBar);
 			
 			text = new TextField();
 			
@@ -79,7 +93,11 @@ package
 			text.x = (sw - text.width) * 0.5;
 			text.y = sh * 0.5 + h;
 			
-			addChild(text);
+			if (! touchscreen) {
+				addChild(progressBar);
+				addChild(text);
+			}
+			
 			
 			stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
@@ -88,15 +106,34 @@ package
 			}
 		}
 
+		private function addBG ():void
+		{
+			bg = new BitmapData(sw, sh, true, 0x0);
+			
+			var m:Matrix = new Matrix;
+			var sprite:Sprite = new Sprite;
+			
+			sprite.graphics.beginBitmapFill((new BgGfx).bitmapData);
+			sprite.graphics.drawRect(0, 0, sw, sh);
+			sprite.graphics.endFill();
+			
+			bg.draw(sprite);
+			
+			m.createGradientBox(sw, sh, 0, 0, 0);
+			sprite.graphics.clear();
+			sprite.graphics.beginGradientFill("radial", [0x0, 0x0], [0.0,1.0], [0,255], m);
+			sprite.graphics.drawRect(0, 0, sw, sh);
+			sprite.graphics.endFill();
+			
+			bg.draw(sprite, null, null, "overlay");
+			
+			addChild(new Bitmap(bg));
+		}
+
 		public function onEnterFrame (e:Event): void
 		{
 			if (hasLoaded())
 			{
-				graphics.clear();
-				graphics.beginFill(BG_COLOR);
-				graphics.drawRect(0, 0, sw, sh);
-				graphics.endFill();
-				
 				if (! mustClick) {
 					startup();
 				} else {
