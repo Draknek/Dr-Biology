@@ -67,6 +67,8 @@ package
 				sh = stage.fullScreenHeight;
 			}
 			
+			stage.scaleMode = StageScaleMode.SHOW_ALL;
+			
 			w = stage.stageWidth * 0.8;
 			h = 20;
 			
@@ -74,10 +76,6 @@ package
 			py = (sh - h) * 0.5;
 			
 			addBG();
-			
-			graphics.beginFill(FG_COLOR);
-			graphics.drawRect(px - 2, py - 2, w + 4, h + 4);
-			graphics.endFill();
 			
 			progressBar = new Shape();
 			
@@ -127,7 +125,12 @@ package
 			
 			bg.draw(sprite, null, null, "overlay");
 			
-			addChild(new Bitmap(bg));
+			var bitmap:Bitmap = new Bitmap(bg);
+			
+			bitmap.x = (stage.stageWidth - sw)*0.5;
+			bitmap.y = (stage.stageHeight - sh)*0.5;
+			
+			addChild(bitmap);
 		}
 
 		public function onEnterFrame (e:Event): void
@@ -148,6 +151,9 @@ package
 				var p:Number = (loaderInfo.bytesLoaded / loaderInfo.bytesTotal);
 				
 				progressBar.graphics.clear();
+				progressBar.graphics.beginFill(FG_COLOR);
+				progressBar.graphics.drawRect(px - 2, py - 2, w + 4, h + 4);
+				progressBar.graphics.endFill();
 				progressBar.graphics.beginFill(BG_COLOR);
 				progressBar.graphics.drawRect(px, py, p * w, h);
 				progressBar.graphics.endFill();
