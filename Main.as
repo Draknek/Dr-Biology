@@ -35,6 +35,9 @@ package
 		public static var isPlaybook:Boolean = false;
 		public static var platform:String = "";
 		
+		public static var mouseX:int;
+		public static var mouseY:int;
+		
 		public static const so:SharedObject = SharedObject.getLocal("draknek/cells", "/");
 		
 		
@@ -275,6 +278,11 @@ package
 		
 		public override function update (): void
 		{
+			if (! touchscreen || Input.mouseDown) {
+				Main.mouseX = FP.screen.mouseX;
+				Main.mouseY = FP.screen.mouseY;
+			}
+			
 			if (Input.pressed(FP.console.toggleKey)) {
 				// Doesn't matter if it's called when already enabled
 				FP.console.enable();

@@ -70,7 +70,7 @@
 		 */
 		public static function get mouseX():int
 		{
-			return FP.screen.mouseX;
+			return Main.mouseX;
 		}
 		
 		/**
@@ -78,7 +78,7 @@
 		 */
 		public static function get mouseY():int
 		{
-			return FP.screen.mouseY;
+			return Main.mouseY;
 		}
 		
 		/**
