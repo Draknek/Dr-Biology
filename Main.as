@@ -203,6 +203,8 @@ package
 			}
 			
 			contextMenu = menu;
+			
+			FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, extraMouseListener);
 		}
 		
 		private function copyHandler(event:Event):void 
@@ -273,6 +275,29 @@ package
 			
 			if (editor) {
 				Editor.clear();
+			}
+		}
+		
+		private function extraMouseListener(event:MouseEvent):void
+		{
+			if (! FP.world.active) return;
+			
+			var a:Array = [];
+			
+			FP.world.getType("button", a);
+			
+			for each (var b:Button in a) {
+				if (b.callback == null || b.disabled) continue;
+				
+				var _x:Number = b.x;
+				var _y:Number = b.y;
+			
+				var over:Boolean = b.collidePoint(_x, _y, event.stageX, event.stageY);
+				
+				if (over) {
+					Button.lastPressed = b;
+					b.callback();
+				}
 			}
 		}
 		

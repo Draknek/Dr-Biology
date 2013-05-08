@@ -92,10 +92,10 @@ package
 				Text(image).updateTextBuffer();
 			}
 			
-			if (over && Input.mousePressed && callback != null) {
+			/*if (over && Input.mousePressed && callback != null) {
 				lastPressed = this;
 				callback();
-			}
+			}*/
 		}
 		
 		public override function render (): void
