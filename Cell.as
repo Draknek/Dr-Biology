@@ -130,6 +130,10 @@ package
 					text.color = 0xFFFFFF;
 				}
 				
+				if (Main.touchscreen && ! Input.mouseDown) {
+					text.color = 0x0;
+				}
+				
 				if (Input.mousePressed) {
 					pendingSplit = true;
 					clickPos.x = world.mouseX;
