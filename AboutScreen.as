@@ -5,8 +5,12 @@ package
 	import net.flashpunk.masks.*;
 	import net.flashpunk.utils.*;
 	
+	import flash.text.*;
+	
 	public class AboutScreen extends World
-	{	
+	{
+		public var credits:TextField;
+		
 		public function AboutScreen ()
 		{
 			var scale:Number = FP.height / 480;
@@ -24,16 +28,10 @@ package
 		
 			addGraphic(title);
 			
-			title = new Text("was created by Dr. Biology\nwith assistance from Alan Hazelden\n\nGraphics by Cap'n Lee\n\nAudio by William Robinson\n ", 0, 0, {size: 32*scale, color: 0x0, align: "center"});
-		
-			title.centerOO();
-		
-			title.x = FP.width * 0.5;
-			title.y = FP.height * 0.7;
+			credits = makeHTMLText('was created by Dr. Biology\nwith assistance from <a href="http://www.draknek.org/?ref=drbiology" target="_blank">Alan Hazelden</a>\n\nGraphics by <a href="https://twitter.com/tweetleewhat" target="_blank">Cap\'n Lee</a>\n\nAudio by <a href="http://www.metzopaino.com/" target="_blank">William Robinson</a>\n ', 32*scale, 0x0, "a {color: #1F922E;} a:hover {color: #145f1e;}");
 			
-			//title.scrollX = title.scrollY = 0;
-		
-			addGraphic(title);
+			credits.x = FP.width * 0.5 - credits.width*0.5;
+			credits.y = FP.height * 0.7 - credits.height*0.5;
 			
 			var buttonImage:Spritemap = new Spritemap(History.ButtonsGfx, 48, 48);
 			buttonImage.scale = Main.SCALE_BUTTONS;
@@ -64,11 +62,51 @@ package
 			super.update();
 		}
 		
+		public override function begin ():void
+		{
+			FP.engine.addChild(credits);
+		}
+		
+		public override function end ():void
+		{
+			FP.engine.removeChild(credits);
+		}
+		
 		public static function gotoMenu ():void
 		{
 			Audio.play("button_click");
 			
 			FP.world = new Menu;
+		}
+		
+		public static function makeHTMLText (html:String, size:Number, color:uint, css:String): TextField
+		{
+			var ss:StyleSheet = new StyleSheet();
+			ss.parseCSS(css);
+			
+			var textField:TextField = new TextField;
+			
+			textField.selectable = false;
+			textField.mouseEnabled = true;
+			
+			textField.embedFonts = true;
+			
+			textField.multiline = true;
+			
+			textField.autoSize = "center";
+			
+			textField.textColor = color;
+			
+			var format:TextFormat = new TextFormat(Text.font, size);
+			format.align = "center";
+			
+			textField.defaultTextFormat = format;
+			
+			textField.htmlText = html;
+			
+			textField.styleSheet = ss;
+			
+			return textField;
 		}
 	}
 }
