@@ -87,6 +87,7 @@ package
 			
 			text = new Text(""+splitsLeft, 0, 0, {color: 0x000000});
 			text.centerOO();
+			text.size = FP.rand(4) + 15*Main.SCALE;
 			
 			addGraphic(image);
 			addGraphic(image2);
