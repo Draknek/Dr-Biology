@@ -76,7 +76,7 @@ package
 			
 			if (touchscreen) {
 				try {
-					Preloader.stage.displayState = StageDisplayState.FULL_SCREEN;
+					Preloader.stage.displayState = StageDisplayState['FULL_SCREEN_INTERACTIVE'];
 				} catch (e:Error) {}
 				
 				w = Preloader.stage.fullScreenWidth;
@@ -131,7 +131,7 @@ package
 			
 			if (touchscreen) {
 				try {
-					stage.displayState = StageDisplayState.FULL_SCREEN;
+					stage.displayState = StageDisplayState['FULL_SCREEN_INTERACTIVE'];
 				} catch (e:Error) {
 					//stage.align = StageAlign.TOP;
 					//stage.scaleMode = StageScaleMode.SHOW_ALL;
