@@ -204,7 +204,23 @@ package
 			
 			contextMenu = menu;
 			
+			addEventHandlers();
+		}
+		
+		private static function addEventHandlers ():void
+		{
 			FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, extraMouseListener);
+			
+			if (isAndroid) {
+				try {
+					var NativeApplication:Class = getDefinitionByName("flash.desktop.NativeApplication") as Class;
+					
+					NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, extraKeyListener);
+				}
+				catch (e:Error) {}
+			
+				//fixAndroidLag();
+			}
 		}
 		
 		private function copyHandler(event:Event):void 
@@ -278,7 +294,7 @@ package
 			}
 		}
 		
-		private function extraMouseListener(event:MouseEvent):void
+		private static function extraMouseListener(event:MouseEvent):void
 		{
 			if (! FP.world.active) return;
 			
@@ -299,6 +315,30 @@ package
 					b.callback();
 				}
 			}
+		}
+		
+		private static function extraKeyListener(e:KeyboardEvent):void
+		{
+			try {
+			const BACK:uint   = ("BACK" in Keyboard)   ? Keyboard["BACK"]   : 0;
+			const MENU:uint   = ("MENU" in Keyboard)   ? Keyboard["MENU"]   : 0;
+			const SEARCH:uint = ("SEARCH" in Keyboard) ? Keyboard["SEARCH"] : 0;
+			
+			if(e.keyCode == BACK) {
+				if (! (FP.world is Menu)) {
+					FP.world = new MenuClass;
+				} else {
+					return;
+				}
+			} else if(e.keyCode == SEARCH) {
+				
+			} else {
+				return;
+			}
+			
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			} catch (e:Error) {}
 		}
 		
 		public override function update (): void
