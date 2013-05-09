@@ -11,8 +11,10 @@ package
 	{
 		public var title:Text;
 		
-		//[Embed(source="images/logocolourblue.png")]
-		//public static const LogoGfx: Class;
+		[Embed(source="images/moregames.png")]
+		public static const MoreGamesGfx: Class;
+		
+		public var moreGamesButton:Button;
 		
 		public function Menu ()
 		{
@@ -40,6 +42,16 @@ package
 			//addGraphic(logo);
 			addGraphic(title);
 			
+			var moreGamesImage:Image = new Image(MoreGamesGfx);
+			moreGamesImage.scale = scale*0.25;
+			moreGamesImage.smooth = true;
+			
+			moreGamesButton = new Button(moreGamesImage, gotoMoreGames);
+			//moreGamesButton.x = FP.width - moreGamesButton.width - 10*scale;
+			moreGamesButton.x = int((FP.width - moreGamesButton.width)*0.5);
+			moreGamesButton.y = int(FP.height - moreGamesButton.height - 10*scale);
+			add(moreGamesButton);
+			
 			var buttons:Array = [];
 			
 			var button:Button;
@@ -61,9 +73,6 @@ package
 			}
 			
 			button = new Button({text: "About", size: 40*scale}, gotoAbout);
-			buttons.push(button);
-			
-			button = new Button({text: "More games", size: 40*scale}, gotoMoreGames);
 			buttons.push(button);
 			
 			addButtons(buttons);
@@ -130,9 +139,9 @@ package
 			
 			var start:Number = title.y + title.height;
 			
-			var padding:Number = (FP.height - start - h) / (itemCount + 4);
+			var padding:Number = (moreGamesButton.y - start - h) / (itemCount + 5);
 			
-			var y:Number = start + padding*3;
+			var y:Number = start + padding*2;
 			
 			for each (e in array) {
 				e.x = (FP.width - e.width)*0.5;

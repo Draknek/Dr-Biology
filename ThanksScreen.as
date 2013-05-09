@@ -44,23 +44,28 @@ package
 			text.centerOO();
 		
 			text.x = FP.width * 0.5;
-			text.y = FP.height * 0.55;
+			text.y = FP.height * 0.5;
 			
 			addGraphic(text);
 			
-			var button:Button = new Button({text: "More games", size: 40*scale}, Menu.gotoMoreGames);
 			
-			button.x = (FP.width - button.width) * 0.5;
-			button.y = text.y + text.height*0.5;
+			var moreGamesImage:Image = new Image(Menu.MoreGamesGfx);
+			moreGamesImage.scale = scale*0.25;
+			moreGamesImage.smooth = true;
 			
-			add(button);
+			var moreGamesButton:Button = new Button(moreGamesImage, Menu.gotoMoreGames);
+			//moreGamesButton.x = FP.width - moreGamesButton.width - 10*scale;
+			moreGamesButton.x = int((FP.width - moreGamesButton.width)*0.5);
+			moreGamesButton.y = int(text.y + text.height*0.75);
+			add(moreGamesButton);
+			
 			
 			text = new Text("(and tell people about them)", 0, 0, {size: 36*scale, color: 0x0, align: "center"});
 		
 			text.centerOO();
 		
 			text.x = FP.width * 0.5;
-			text.y = button.y + button.height + text.height*0.5;
+			text.y = moreGamesButton.y + moreGamesButton.height + text.height*0.75;
 			
 			addGraphic(text);
 			
@@ -69,7 +74,7 @@ package
 			buttonImage.smooth = true;
 			buttonImage.frame = 2;
 			
-			button = new Button(buttonImage, gotoMenu);
+			var button:Button = new Button(buttonImage, gotoMenu);
 			
 			if (Main.touchscreen) {
 				button.x -= button.width * (1 - 1.5)*0.3;
