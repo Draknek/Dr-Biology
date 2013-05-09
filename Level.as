@@ -6,6 +6,7 @@ package
 	import net.flashpunk.utils.*;
 	
 	import flash.geom.*;
+	import flash.net.*;
 	
 	public class Level extends World
 	{
@@ -23,8 +24,22 @@ package
 		
 		public var history:History;
 		
+		public static  var title:Text;
+		
 		public function Level (_data:LevelData = null, _id:int = 0)
 		{
+			var scale:Number = FP.height / 480;
+			title = new Text("Dr. Biology's\nEducational Game", 0, 0, {
+				//outlineStrength: 0.0, outlineColor: Button.defaultColorTextHover, letterSpacing: 0,
+				size: 50*scale, color: 0x0E394E, align: "center"
+			});
+			
+			title.scrollX = title.scrollY = 0;
+			title.x = (FP.width - title.width) * 0.5;
+			title.y = 25*scale;
+			
+			addGraphic(title);
+			
 			data = _data;
 			id = _id;
 			
@@ -74,6 +89,10 @@ package
 			
 			history.update();
 			
+			history.buttons[0].visible = false;
+			history.buttons[1].visible = false;
+			history.buttons[2].visible = false;
+			
 			while (actions.length && ! busy) {
 				var action:* = actions.shift();
 				
@@ -96,6 +115,10 @@ package
 			if (Input.pressed(Key.ESCAPE)) {
 				gotoMenu();
 				return;
+			}
+			
+			if (Input.pressed(Key.SPACE)) {
+				new FileReference().save(PNGEncoder.encode(FP.buffer));
 			}
 			
 			if (nextLevel) return;
@@ -181,6 +204,8 @@ package
 			if (!w) w = FP.width;
 			if (!h) h = FP.height;
 			
+			h -= title.y + title.height;
+			
 			var minX:int = 100;
 			var minY:int = 100;
 			var maxX:int = -100;
@@ -204,6 +229,8 @@ package
 			
 			camera.x = (minX + maxX + 1) * Main.TW * 0.5 - w*0.5;
 			camera.y = (minY + maxY + 1) * Main.TW * 0.5 - h*0.5;
+			
+			camera.y -= title.y + title.height;
 		}
 		
 		public override function render (): void
