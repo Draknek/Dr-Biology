@@ -325,10 +325,12 @@ package
 			const SEARCH:uint = ("SEARCH" in Keyboard) ? Keyboard["SEARCH"] : 0;
 			
 			if(e.keyCode == BACK) {
-				if (! (FP.world is Menu)) {
+				if (FP.world is Menu) {
+					return;
+				} else if (FP.world is Level) {
 					FP.world = new MenuClass;
 				} else {
-					return;
+					FP.world = new Menu;
 				}
 			} else if(e.keyCode == SEARCH) {
 				
