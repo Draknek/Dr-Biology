@@ -8,7 +8,7 @@ package
 	import flash.utils.getDefinitionByName;
 	import flash.system.*;
 
-	[SWF(width = "960", height = "640", backgroundColor = "#f7dfd4")]
+	[SWF(width = "640", height = "480", backgroundColor = "#f7dfd4")]
 	public class Preloader extends Sprite
 	{
 		// Change these values
