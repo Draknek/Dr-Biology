@@ -26,7 +26,8 @@ package
 		public static var music:Sfx;
 		public static var rewind:Sfx;
 		
-		public static const MUSIC_VOLUME:Number = 0.8;
+		public static const MUSIC_VOLUME:Number = 1.2;
+		public static const REWIND_VOLUME:Number = 1.5;
 		
 		public static function init (o:InteractiveObject):void
 		{
@@ -54,11 +55,11 @@ package
 		
 		public static function play (sound:String):void
 		{
-			var volume:Number = 0.4;
+			var volume:Number = 0.5;
 			
-			if (sound == "split") volume = 0.1;
+			if (sound == "split") volume = 0.5;
 			if (sound == "yay2") volume = 1.0;
-			if (sound == "button_click") volume = 0.5;
+			if (sound == "button_click") volume = 1.0;
 			
 			if (! sounds[sound]) {
 				var embed:Class = Audio["Sfx_" + sound];
@@ -81,7 +82,8 @@ package
 			if (sound == "yay2") {
 				volume = 1.0;
 			} else if (sound == "split2") {
-				volume = 0.1;
+				volume = 0.3;
+				// n.b. not actually used
 			}
 			
 			if (! sounds[sound]) {
@@ -109,7 +111,7 @@ package
 			if (rewindTween) rewindTween.cancel();
 			if (rewindTween2) rewindTween2.cancel();
 			
-			rewindTween = FP.tween(rewind, {volume: 1.2}, 6);
+			rewindTween = FP.tween(rewind, {volume: REWIND_VOLUME}, 6);
 			rewindTween2 = FP.tween(music, {volume: 0.0}, 6);
 			
 			rewindPlaying = true;
