@@ -221,6 +221,8 @@ package
 			
 				//fixAndroidLag();
 			}
+			
+			fixIOSOrientation();
 		}
 		
 		private function copyHandler(event:Event):void 
@@ -341,6 +343,40 @@ package
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			} catch (e:Error) {}
+		}
+		
+		private static function fixIOSOrientation ():void
+		{
+			if (Capabilities.manufacturer.toLowerCase().indexOf("ios") != -1) {
+				try {
+					var StageAspectRatio:Class = getDefinitionByName("flash.display.StageAspectRatio") as Class;
+					var StageOrientation:Class = getDefinitionByName("flash.display.StageOrientation") as Class;
+					var StageOrientationEvent:Class = getDefinitionByName("flash.events.StageOrientationEvent") as Class;
+					
+					FP.stage["setAspectRatio"]( StageAspectRatio.LANDSCAPE );
+					
+					var startOrientation:String = FP.stage["orientation"];
+					
+					if (startOrientation == StageOrientation.DEFAULT || startOrientation == StageOrientation.UPSIDE_DOWN)
+					{
+						FP.stage["setOrientation"](StageOrientation.ROTATED_RIGHT);
+					}
+					else
+					{
+						FP.stage["setOrientation"](startOrientation);
+					}
+
+					FP.stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGING, orientationChangeListener);
+				} catch (e:Error){}
+			}
+		}
+		
+		private static function orientationChangeListener(e:*): void
+		{
+			if (e.afterOrientation == "default" || e.afterOrientation ==  "upsideDown")
+			{
+				e.preventDefault();
+			}
 		}
 		
 		public override function update (): void
