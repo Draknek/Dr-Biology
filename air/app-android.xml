@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
     <application xmlns="http://ns.adobe.com/air/application/2.6">
 
-    <id>org.draknek.games.drbiology</id>
+    <id>org.draknek.drbiology</id>
     <versionNumber>1.0</versionNumber>
     <filename>drbiology</filename>
     <name>Dr. Biology</name>

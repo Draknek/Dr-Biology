@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <application xmlns="http://ns.adobe.com/air/application/3.5">
+
+    <id>org.draknek.drbiology</id>
+    <versionNumber>1.0</versionNumber>
+    <filename>drbiology</filename>
+    <name>Dr. Biology</name>
+    <description>Biological puzzle game</description>
+    <copyright>Alan Hazelden</copyright>
+    
+    <initialWindow>
+        <title>Dr. Biology</title>
+        <content>game.swf</content>
+        <systemChrome>standard</systemChrome>
+        <transparent>false</transparent>
+        <visible>true</visible>
+        <minimizable>true</minimizable>
+        <autoOrients>true</autoOrients>
+        <resizable>false</resizable>
+        <renderMode>cpu</renderMode>
+        <fullScreen>true</fullScreen>
+        <aspectRatio>landscape</aspectRatio>
+    </initialWindow>
+
+    <icon>
+    <image29x29>29x29.png</image29x29>
+    <image48x48>48x48.png</image48x48>
+    <image50x50>50x50.png</image50x50>
+    <image57x57>57x57.png</image57x57>
+    <image58x58>58x58.png</image58x58>
+    <image72x72>72x72.png</image72x72>
+    <image100x100>100x100.png</image100x100>
+    <image114x114>114x114.png</image114x114>
+    <image144x144>144x144.png</image144x144>
+    <image512x512>512x512.png</image512x512>
+    <image1024x1024>1024x1024.png</image1024x1024>
+    </icon>
+
+    <supportedProfiles>mobileDevice desktop</supportedProfiles>
+    
+    <iPhone>
+    <InfoAdditions>
+    <![CDATA[
+    <key>UIPrerenderedIcon</key>
+    <true/>
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleBlackOpaque</string>
+    <key>UIRequiresPersistentWiFi</key>
+    <string>NO</string>
+    <key>UIDeviceFamily</key>
+    <array>
+    <string>1</string>
+    <string>2</string>
+    </array>
+    ]]>
+    </InfoAdditions>
+    </iPhone>
+
+</application>
