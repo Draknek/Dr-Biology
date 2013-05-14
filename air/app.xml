@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/2.5">
+
+    <id>org.draknek.games.drbiology</id>
+    <versionNumber>1.0.0</versionNumber>
+    <filename>drbiology</filename>
+    <name>Dr. Biology</name>
+    <description>Biological puzzle game</description>
+    <copyright>Alan Hazelden</copyright>
+
+    <initialWindow>
+	    <title>Dr. Biology</title>
+	    <content>game.swf</content>
+	    <systemChrome>standard</systemChrome>
+	    <transparent>false</transparent>
+	    <visible>true</visible>
+	    <minimizable>true</minimizable>
+	    <autoOrients>false</autoOrients>
+	    <resizable>false</resizable>
+	    <renderMode>cpu</renderMode>
+	    <fullScreen>true</fullScreen>
+	    <aspectRatio>landscape</aspectRatio>
+    </initialWindow>
+
+    <!--<icon>
+    <image29x29>thumb29.png</image29x29>
+    <image48x48>thumb48.png</image48x48>
+    <image57x57>thumb57.png</image57x57>
+    <image72x72>thumb72.png</image72x72>
+    <image114x114>thumb114.png</image114x114>
+    <image512x512>iTunesArtwork.png</image512x512>
+    </icon>-->
+
+</application>

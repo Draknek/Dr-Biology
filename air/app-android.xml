@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <application xmlns="http://ns.adobe.com/air/application/2.6">
+
+    <id>org.draknek.games.drbiology</id>
+    <versionNumber>1.0</versionNumber>
+    <filename>drbiology</filename>
+    <name>Dr. Biology</name>
+    <description>Biological puzzle game</description>
+    <copyright>Alan Hazelden</copyright>
+    
+    <initialWindow>
+        <title>Dr. Biology</title>
+        <content>game.swf</content>
+        <systemChrome>standard</systemChrome>
+        <transparent>false</transparent>
+        <visible>true</visible>
+        <minimizable>true</minimizable>
+        <autoOrients>false</autoOrients>
+        <resizable>false</resizable>
+        <renderMode>cpu</renderMode>
+        <fullScreen>true</fullScreen>
+        <aspectRatio>landscape</aspectRatio>
+    </initialWindow>
+
+    <icon>
+    <image36x36>thumb-36-border.png</image36x36>
+    <image48x48>thumb-48-border.png</image48x48>
+    <image72x72>thumb-72-border.png</image72x72>
+    </icon>
+
+    <supportedProfiles>mobileDevice desktop</supportedProfiles>
+    
+    <android>
+    <manifestAdditions>
+    <![CDATA[
+    <manifest android:installLocation="auto">
+    <supports-screens android:smallScreens="true"/>
+    <supports-screens android:normalScreens="true"/>
+    <supports-screens android:largeScreens="true"/>
+    <supports-screens android:xlargeScreens="true"/>
+    <application android:enabled="true">
+    <activity android:excludeFromRecents="false">
+    <intent-filter>
+    <action android:name="android.intent.action.MAIN"/>
+    <category android:name="android.intent.category.LAUNCHER"/>
+    </intent-filter>
+    </activity>
+    </application>
+    </manifest>
+    ]]>
+    </manifestAdditions>
+    </android>
+    
+</application>
