@@ -144,7 +144,7 @@ package
 		
 		public override function init (): void
 		{
-			sitelock("draknek.org");
+			sitelock(["draknek.org", "flashgamelicense.com"]);
 			
 			Audio.init(this);
 			
