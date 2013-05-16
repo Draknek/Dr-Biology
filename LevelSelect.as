@@ -19,6 +19,9 @@ package
 		
 		public static var thumbnailScale:Number;
 		
+		[Embed(source="images/locked.png")]
+		public static const LockedGfx: Class;
+		
 		public function LevelSelect ()
 		{
 			thumbnailScale = 1.0/3.0;
@@ -239,8 +242,6 @@ package
 		
 		private static var imageCacheSmall:Vector.<BitmapData> = new Vector.<BitmapData>(24, true);
 		
-		private static var textCache:Text;
-		
 		private static function getLevelImageSmall (i:int, locked:Boolean):BitmapData
 		{
 			var lookup:int = i;
@@ -260,32 +261,26 @@ package
 			
 			var small:BitmapData = new BitmapData(w, h, true, 0x0);
 			
-			if (locked && ! textCache) {
-				var textSize:int = 30;
-				
-				var spacingX:Number = (FP.width - w*4)/5;
-				var spacingY:Number = (FP.height - h*3)/4;
-				
-				var maxSpacingX:Number = (640 - w*4)/5;
-				
-				if (spacingX < maxSpacingX) {
-					textSize = FP.lerp(24, 30, spacingX / maxSpacingX);
-				} else {
-					textSize = 30 * (Main.TW/36);
-				}
-				
-				textCache = new Text("LOCKED", w*0.5, h*0.5, {size: textSize, color: 0x0});
-				textCache.centerOO();
-			
-			}
-			
 			var image:Image = new Image(large);
 			image.scale = thumbnailScale;
 			image.smooth = true;
+			if (locked) {
+				image.alpha = 0.6;
+			}
 			
 			Draw.setTarget(small);
 			Draw.graphic(image);
-			if (locked) Draw.graphic(textCache);
+			if (locked) {
+				var lock:Image = new Image(LockedGfx);
+				lock.centerOO();
+				lock.x = w*0.5;
+				lock.y = h*0.5;
+				lock.scale = h / lock.height;
+				lock.smooth = true;
+				lock.color = 0x0E394E;
+				lock.alpha = 0.9;
+				Draw.graphic(lock);
+			}
 			
 			imageCacheSmall[lookup] = small;
 			
