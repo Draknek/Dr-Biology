@@ -11,7 +11,11 @@ package
 		{
 			var scale:Number = FP.height / 480;
 			
-			Main.so.data.currentlevel = 0;
+			if (Main.so.data.currentlevel != 0) {
+				Main.so.data.currentlevel = 0;
+				Main.so.flush();
+			}
+			
 			Main.MenuClass = Menu;
 			
 			var title:Text = new Text("Dr. Biology's\nEducational Game", 0, 0, {
@@ -88,7 +92,10 @@ package
 		{
 			History.buttonsVisible = 1;
 			
-			Main.so.data.currentlevel = 0;
+			if (Main.so.data.currentlevel != 0) {
+				Main.so.data.currentlevel = 0;
+				Main.so.flush();
+			}
 			
 			Input.mouseCursor = "auto";
 			

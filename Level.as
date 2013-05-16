@@ -62,7 +62,10 @@ package
 		
 		public override function update (): void
 		{
-			Main.so.data.currentlevel = id;
+			if (Main.so.data.currentlevel != id) {
+				Main.so.data.currentlevel = id;
+				Main.so.flush();
+			}
 			
 			History.buttonsVisible = 3;
 			
@@ -126,6 +129,7 @@ package
 			
 			if (done) {
 				Main.so.data.completed[id] = true;
+				Main.so.flush();
 				
 				Audio.play("yay2");
 				
