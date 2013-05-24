@@ -391,7 +391,9 @@ package
 				FP.console.enable();
 			}
 			
-			super.update();
+			if (! touchscreen || FP.focused) {
+				super.update();
+			}
 		}
 		
 		[Embed(source="images/back.png")]
@@ -404,6 +406,13 @@ package
 			if (! bg) bg = Preloader.bg;
 			
 			FP.buffer.copyPixels(bg, bg.rect, FP.zero);
+		}
+		
+		public override function render ():void
+		{
+			if (! touchscreen || FP.focused) {
+				super.render();
+			}
 		}
 		
 		public function sitelock (allowed:*):Boolean
