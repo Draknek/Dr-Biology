@@ -393,6 +393,8 @@ package
 			
 			if (! touchscreen || FP.focused) {
 				super.update();
+			} else {
+				if (FP.tweener.active) FP.tweener.updateTweens();
 			}
 		}
 		
