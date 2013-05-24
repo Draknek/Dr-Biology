@@ -2,7 +2,7 @@
     <application xmlns="http://ns.adobe.com/air/application/2.6">
 
     <id>org.draknek.drbiology</id>
-    <versionNumber>1.0</versionNumber>
+    <versionNumber>1.0.1</versionNumber>
     <filename>drbiology</filename>
     <name>Dr. Biology</name>
     <description>Biological puzzle game</description>
