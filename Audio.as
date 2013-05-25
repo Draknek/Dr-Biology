@@ -145,6 +145,9 @@ package
 			if (rewindTween) rewindTween.cancel();
 			if (rewindTween2) rewindTween2.cancel();
 			
+			if (! rewind.playing) rewind.resume();
+			if (! music.playing) music.resume();
+			
 			rewindTween2 = FP.tween(music, {volume: MUSIC_VOLUME}, 10);
 		}
 		
@@ -154,7 +157,13 @@ package
 			if (rewindTween2) rewindTween2.cancel();
 			
 			rewindTween = FP.tween(rewind, {volume: 0.0}, 6);
-			rewindTween2 = FP.tween(music, {volume: 0.0}, 6);
+			rewindTween2 = FP.tween(music, {volume: 0.0}, 6, muteMusicCallback);
+		}
+		
+		private static function muteMusicCallback ():void
+		{
+			rewind.stop();
+			music.stop();
 		}
 	}
 }
