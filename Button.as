@@ -88,8 +88,12 @@ package
 			image.color = over ? hoverColor : normalColor;
 			
 			if (image is Text) {
-				Text(image).outlineColor = over ? FP.colorLerp(0x0, defaultColorTextHover, 0.8) : defaultColorTextHover;
-				Text(image).updateTextBuffer();
+				var outlineColor:uint = over ? FP.colorLerp(0x0, defaultColorTextHover, 0.8) : defaultColorTextHover;
+				
+				if (Text(image).outlineColor != outlineColor) {
+					Text(image).outlineColor = outlineColor;
+					Text(image).updateTextBuffer();
+				}
 			}
 			
 			/*if (over && Input.mousePressed && callback != null) {
