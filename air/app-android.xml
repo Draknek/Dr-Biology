@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-    <application xmlns="http://ns.adobe.com/air/application/2.6">
+    <application xmlns="http://ns.adobe.com/air/application/15.0">
 
     <id>org.draknek.drbiology</id>
-    <versionNumber>1.0.1</versionNumber>
+    <versionNumber>1.0.2</versionNumber>
     <filename>drbiology</filename>
     <name>Dr. Biology</name>
     <description>Biological puzzle game</description>
@@ -23,9 +23,9 @@
     </initialWindow>
 
     <icon>
-    <image36x36>thumb-36-border.png</image36x36>
-    <image48x48>thumb-48-border.png</image48x48>
-    <image72x72>thumb-72-border.png</image72x72>
+    <image36x36>promo/thumb-36-border.png</image36x36>
+    <image48x48>promo/thumb-48-border.png</image48x48>
+    <image72x72>promo/thumb-72-border.png</image72x72>
     </icon>
 
     <supportedProfiles>mobileDevice desktop</supportedProfiles>
