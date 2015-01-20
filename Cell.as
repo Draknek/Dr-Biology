@@ -156,7 +156,7 @@ package
 				var dx:int = 0;
 				var dy:int = 0;
 				
-				var dist:Number = 0.75;
+				var dist:Number = Input.mouseReleased ? 0.5 : 0.75;
 				
 				if (! image2.visible) {
 					image2.visible = true;
