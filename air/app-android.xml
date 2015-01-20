@@ -26,6 +26,8 @@
     <image36x36>promo/thumb-36-border.png</image36x36>
     <image48x48>promo/thumb-48-border.png</image48x48>
     <image72x72>promo/thumb-72-border.png</image72x72>
+    <image96x96>promo/thumb-96-border.png</image96x96>
+    <image144x144>promo/thumb-144-border.png</image144x144>
     </icon>
 
     <supportedProfiles>mobileDevice desktop</supportedProfiles>
