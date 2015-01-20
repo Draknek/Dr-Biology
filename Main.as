@@ -211,6 +211,10 @@ package
 		{
 			FP.stage.addEventListener(MouseEvent.MOUSE_DOWN, extraMouseListener);
 			
+			if (touchscreen) {
+				FP.stage.addEventListener(MouseEvent.MOUSE_UP, touchscreenMouseUp);
+			}
+			
 			if (isAndroid) {
 				try {
 					var NativeApplication:Class = getDefinitionByName("flash.desktop.NativeApplication") as Class;
@@ -317,6 +321,12 @@ package
 					b.callback();
 				}
 			}
+		}
+		
+		private static function touchscreenMouseUp (event:MouseEvent):void
+		{
+			Main.mouseX = FP.screen.mouseX;
+			Main.mouseY = FP.screen.mouseY;
 		}
 		
 		private static function extraKeyListener(e:KeyboardEvent):void
